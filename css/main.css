@@ -1,0 +1,13 @@
+.title {
+    margin-top:200px;
+    text-align: center;
+    font-size: 36px;
+}
+.container-btn{
+    text-align: center;
+}
+.btn{
+    margin-top: 20px;
+    width: 200px;
+    height: 50px;
+}
