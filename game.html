@@ -3,10 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" type="text/css" href="css/game.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 <body>
-    <h1>게임 화면</h1>
+    <!-- nav -->
+    <nav class="nav">
+        <!-- player -->
+        <div class="nav-player">
+			<ul class="player">
+				<li class="player-1">
+					<h3 class="player-box">me</h3>
+					<div class="player-tile">14</div>
+				</li>
+				<li class="player-2">
+					<h3 class="player-box" id="min">AI</h3>
+					<div class="player-tile">14</div>
+				</li>
+			</ul>
+		</div>
+        <!-- time -->
+        <div class="nav-time">
+            <img src="image/timeIcon.png" class="time-icon">
+            <p class="time-text">01:00</p>
+        </div>
+    </nav>
 </body>
 </html>

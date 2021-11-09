@@ -1,0 +1,35 @@
+* {
+    list-style: none;
+    text-decoration: none;
+    border-collapse: collapse;
+    margin: 0 auto;
+    padding: 0;
+    color: #000;
+}
+/* nav */
+.nav{
+    margin: 10px;
+}
+    /* player */
+.nav-player{
+    
+    text-align: center;
+}
+.player-1{
+margin-right: 10px;
+}
+.player li{
+    float: left;
+    border: 3px solid #000;
+}
+.player h3{
+    border-bottom: 3px solid #000;
+}
+    /* time */
+.nav-time{
+    padding-left: 10px;
+}
+.time-icon{
+    width: 30px;
+    height: 30px;
+}
