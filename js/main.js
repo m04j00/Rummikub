@@ -1,4 +1,3 @@
-let btnStart = document.querySelector('button.btn-start');
-let btnRule = document.querySelector('button.btn-rule');
+function btn_start_click(){ location.href ='game.html'; }
 
-btnStart.onClick
+function btn_rule_click(){ location.href ='rule.html'; }
