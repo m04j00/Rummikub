@@ -17,7 +17,7 @@ function startCountDown(duration, element) {
     }, 1000);
 }
 
-window.onload = function () {
+function initTime(){
     let min = 1; 
     let sec = 0;
     let duration = min * 60 + sec;
@@ -26,4 +26,13 @@ window.onload = function () {
     element.textContent = `제한 시간 ${isUnits(min)}:${isUnits(sec)}`;
 
     startCountDown(--duration, element);
+}
+
+function remainingTile(tile){ 
+    element = document.querySelector('.remaining-tile-text');
+    element.textContent = `남은 타일 개수 ${isUnits(tile)}`;
+}
+window.onload = function () {
+    initTime();
 };
+
