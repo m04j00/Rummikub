@@ -6,13 +6,11 @@
     padding: 0;
     color: #000;
 }
-/* nav */
 .nav{
-    margin: 10px;
+    padding: 30px;
 }
-    /* player */
+/* player */
 .nav-player{
-    
     text-align: center;
 }
 .player-1{
@@ -22,14 +20,20 @@ margin-right: 10px;
     float: left;
     border: 3px solid #000;
 }
-.player h3{
+/* .player h3{
     border-bottom: 3px solid #000;
+} */
+.tile {
+    /* width: 2.8vw; */
+    margin: 5px;
+    height: 14vh;
+    background-image: url("../images/tileBack.png");
+    background-size: cover;
+    cursor: grab;
 }
-    /* time */
-.nav-time{
-    padding-left: 10px;
-}
-.time-icon{
-    width: 30px;
-    height: 30px;
+.main-board{
+    margin: 30px;
+    height: 62vh;
+    width: 84vw;
+    border: 1px solid black;
 }
