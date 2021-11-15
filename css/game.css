@@ -26,14 +26,20 @@ margin-right: 10px;
 .tile {
     /* width: 2.8vw; */
     margin: 5px;
-    height: 14vh;
-    background-image: url("../images/tileBack.png");
+    height: 11vh;
+    background-image: url("../image/tileBack.png");
     background-size: cover;
     cursor: grab;
 }
 .main-board{
     margin: 30px;
-    height: 62vh;
+    height: 50vh;
+    width: 84vw;
+    border: 1px solid black;
+}
+.player-board{
+    margin: 30px;
+    height: 25vh;
     width: 84vw;
     border: 1px solid black;
 }

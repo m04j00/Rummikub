@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="113" height="157" viewBox="0 0 113 157">
+  <g id="_41" data-name="41" transform="translate(0.26)">
+    <rect id="사각형_16" data-name="사각형 16" width="113" height="157" rx="15.31" transform="translate(-0.26)" fill="#f9e3d1"/>
+    <circle id="타원_2" data-name="타원 2" cx="36.5" cy="36.5" r="36.5" transform="translate(19.74 19)" fill="#edd8c7"/>
+    <text id="_1" data-name="1" transform="translate(38.17 78.08)" font-size="60" font-family="SegoeUI-Bold, Segoe UI" font-weight="700"><tspan x="0" y="0">1</tspan></text>
+    <text id="Rummikub" transform="translate(12.23 134.72)" fill="#edd8c7" font-size="18" font-family="TimesNewRomanPS-BoldMT, Times New Roman" font-weight="700"><tspan x="0" y="0">Rummikub</tspan></text>
+  </g>
+</svg>
