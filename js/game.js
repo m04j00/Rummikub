@@ -77,4 +77,3 @@ for(let i = 0; i < 104; i++){console.log(initTile[i])}
 
 playerBoard = document.querySelector('.player-board');
 console.log(playerBoard);
-playerBoard.innerHTML ='<img src="image/11.png" class="tile"><br>';

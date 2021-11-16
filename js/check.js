@@ -25,11 +25,48 @@ const shuffle = (arr) => {
 }
 inputTile();
 shuffle(initTile);
-for(let i = 0; i < 104; i++){console.log(initTile[i])}
+// for(let i = 0; i < 104; i++){console.log(initTile[i])}
 
-playerBoard = document.querySelector('.board');
-console.log(playerBoard);
-playerBoard.innerHTML ='<img src="image/11.svg" class="tile"><br>';
-for(let i = 0; i < 104; i++){
-    
+// playerBoard = document.querySelector('.board');
+// console.log(playerBoard);
+// playerBoard.innerHTML ='<img src="image/11.svg" class="tile"><br>';
+
+// 타일 띄우기
+// for(let i = 0, k = 1; i < 104; i++, k++){
+//     let path = initTile[i].id;
+//     console.log(path);
+//     playerBoard.innerHTML +='<img src="image/' + path + '.svg" class="tile">';
+//     if(k % 13 == 0) playerBoard.innerHTML += '<br>';
+// }
+
+const playerTile = [];
+const AITile = [];
+const remainTile = [];
+for(let i = 0, p = 0, a = 0, r = 0; i < 104;){
+    if(i < 28){
+        playerTile[p++] = initTile[i++];
+        AITile[a++] = initTile[i++];
+    }
+    else {
+        remainTile[r++] = initTile[i++];
+    }
+}
+console.log(playerTile.length, AITile.length, remainTile.length);
+
+playerBoard = document.querySelector('.player-board');
+for(let i = 0; i < playerTile.length; i++){
+    let path = playerTile[i]?.id;
+    playerBoard.innerHTML +='<img src="image/' + path + '.svg" class="tile">';
+}
+
+AIBoard = document.querySelector('.AI-board');
+for(let i = 0; i < playerTile.length; i++){
+    let path = AITile[i]?.id;
+    AIBoard.innerHTML +='<img src="image/' + path + '.svg" class="tile">';
+}
+
+mainBoard = document.querySelector('.main-board');
+for(let i = 0; i < remainTile.length; i++){
+    let path = remainTile[i]?.id;
+    mainBoard.innerHTML +='<img src="image/' + path + '.svg" class="tile">';
 }
