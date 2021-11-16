@@ -13,7 +13,8 @@ const inputTile = () => {
     for (let i = 1; i <= 8; i++) {
         for (let j = 1; j <= 13; j++) {
             initTile.push({
-                "id": `${tileColor[i]}${j}`,
+                "id": `${i}${tileColor[i]}${j}`,
+                "path": `${tileColor[i]}${j}`,
                 "number": `${j}`,
                 "color": `${tileColor[i]}`
             })
@@ -42,26 +43,27 @@ shuffle(initTile);
 const playerTile = [];
 const AITile = [];
 const remainTile = [];
-for(let i = 0, p = 0, a = 0, r = 0; i < 104;){
-    if(i < 28){
+for (let i = 0, p = 0, a = 0, r = 0; i < 104;) {
+    if (i < 28) {
         playerTile[p++] = initTile[i++];
         AITile[a++] = initTile[i++];
-    }
-    else {
+    } else {
         remainTile[r++] = initTile[i++];
     }
 }
 console.log(playerTile.length, AITile.length, remainTile.length);
 
 playerBoard = document.querySelector('.player-board');
-for(let i = 0; i < playerTile.length; i++){
-    let path = playerTile[i]?.id;
-    playerBoard.innerHTML +='<img onclick="plyaer_tile_click(' + path + ')" src="image/' + path + '.svg" class="tile no-drag">';
+for (let i = 0; i < playerTile.length; i++) {
+    let id = playerTile[i].id;
+    let path = playerTile[i].path;
+    playerBoard.innerHTML += '<img onclick="plyaer_tile_click(' + id + ')" id="' + id + '" src="image/' + path + '.svg" class="tile no-drag">';
 }
 AIBoard = document.querySelector('.AI-board');
-for(let i = 0; i < playerTile.length; i++){
-    let path = AITile[i]?.id;
-    AIBoard.innerHTML +='<img onclick="plyaer_tile_click(' + path + ')" src="image/' + path + '.svg" class="tile">';
+for (let i = 0; i < playerTile.length; i++) {
+    let id = AITile[i].id;
+    let path = AITile[i].path;
+    AIBoard.innerHTML += '<img onclick="AI_tile_click(' + id + ')" id="' + id + '" src="image/' + path + '.svg" class="tile no-drag">';
 }
 // mainBoard = document.querySelector('.main-board');
 // for(let i = 0; i < remainTile.length; i++){
@@ -90,14 +92,30 @@ for(let i = 0; i < playerTile.length; i++){
 //     });
 // });
 
-function isId(e){
-    if(e.id === id) return true;
-}
 
-function plyaer_tile_click(id){ 
+
+function plyaer_tile_click(id) {
     //alert(id); 
-    const tile = playerTile.findIndex((e) =>{
+    const tilInfo = playerTile.findIndex((e) => {
         return e.id == id;
     });
-    console.log(playerTile[tile]);
+    const tile = document.getElementById(id);
+    // tile.className.add("tile-click");
+    document.getElementById(id).classList.toggle('tile-click');
+    console.log(tile)
+
+    console.log(playerTile[tilInfo]);
+}
+
+function AI_tile_click(id) {
+    //alert(id); 
+    const tilInfo = AITile.findIndex((e) => {
+        return e.id == id;
+    });
+    const tile = document.getElementById(id);
+    // tile.className.add("tile-click");
+    document.getElementById(id).classList.toggle('tile-click');
+    console.log(tile)
+
+    console.log(AITile[tilInfo]);
 }

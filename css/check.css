@@ -33,6 +33,7 @@ margin-right: 10px;
 }
 .tile:hover{
     /* border: 1px solid black; */
+    border-radius: 10px;
 }
 .main-board{
     margin: 30px;
@@ -49,5 +50,7 @@ margin-right: 10px;
     border: 1px solid black;
 }
 .tile-click{
-box-shadow: 0px 0px 5px 3px rgb(255, 181, 43);
+    border-radius: 10px;
+    background-color: rgb(255, 181, 43);
+    box-shadow: 0px 0px 5px 5px rgb(255, 188, 43);
 }
