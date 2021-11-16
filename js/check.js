@@ -56,17 +56,48 @@ console.log(playerTile.length, AITile.length, remainTile.length);
 playerBoard = document.querySelector('.player-board');
 for(let i = 0; i < playerTile.length; i++){
     let path = playerTile[i]?.id;
-    playerBoard.innerHTML +='<img src="image/' + path + '.svg" class="tile">';
+    playerBoard.innerHTML +='<img onclick="plyaer_tile_click(' + path + ')" src="image/' + path + '.svg" class="tile no-drag">';
 }
-
 AIBoard = document.querySelector('.AI-board');
 for(let i = 0; i < playerTile.length; i++){
     let path = AITile[i]?.id;
-    AIBoard.innerHTML +='<img src="image/' + path + '.svg" class="tile">';
+    AIBoard.innerHTML +='<img onclick="plyaer_tile_click(' + path + ')" src="image/' + path + '.svg" class="tile">';
+}
+// mainBoard = document.querySelector('.main-board');
+// for(let i = 0; i < remainTile.length; i++){
+//     let path = remainTile[i]?.id;
+//     mainBoard.innerHTML +='<img src="image/' + path + '.svg" class="tile">';
+// }
+
+//타일 이동
+// const tiles = document.querySelectorAll(".tile");
+// const boards = document.querySelectorAll(".board");
+// console.log(tiles);
+// tiles.forEach(draggable =>{
+//     draggable.addEventListener("dragstart", () =>{
+//         draggable.classList.add("dragging");
+//     });
+//     draggable.addEventListener("dragend", () =>{
+//         draggable.classList.remove("dragging");
+//     });
+// });
+
+// boards.forEach(board =>{
+//     board.addEventListener("dragover", e => {
+//         e.preventDefault();
+//         const draggable = document.querySelector(".dragging");
+//         board.appendChild(draggable);
+//     });
+// });
+
+function isId(e){
+    if(e.id === id) return true;
 }
 
-mainBoard = document.querySelector('.main-board');
-for(let i = 0; i < remainTile.length; i++){
-    let path = remainTile[i]?.id;
-    mainBoard.innerHTML +='<img src="image/' + path + '.svg" class="tile">';
+function plyaer_tile_click(id){ 
+    //alert(id); 
+    const tile = playerTile.findIndex((e) =>{
+        return e.id == id;
+    });
+    console.log(playerTile[tile]);
 }
