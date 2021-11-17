@@ -66,11 +66,11 @@ function input_player_tile(){
 }
 
 AIBoard = document.querySelector('.AI-board');
-for (let i = 0; i < playerTile.length; i++) {
-    let id = AITile[i].id;
-    let path = AITile[i].path;
-    AIBoard.innerHTML += '<img onclick="AI_tile_click(' + id + ')" id="' + id + '" src="image/' + path + '.svg" class="tile no-drag">';
-}
+// for (let i = 0; i < playerTile.length; i++) {
+//     let id = AITile[i].id;
+//     let path = AITile[i].path;
+//     AIBoard.innerHTML += '<img onclick="AI_tile_click(' + id + ')" id="' + id + '" src="image/' + path + '.svg" class="tile no-drag">';
+// }
 // mainBoard = document.querySelector('.main-board');
 // for(let i = 0; i < remainTile.length; i++){
 //     let path = remainTile[i]?.id;
@@ -141,9 +141,17 @@ function AI_tile_click(id) {
 }
 
 function set_board_click() {
-    isPass();
+    const setIsPass = isPass();
     const mainBoard = document.querySelector('.main-board');
     let div = document.createElement("div");
+    console.log(div);
+    if(setIsPass){
+        div.className = 'main-board-set-pass';
+    }
+    else{
+        div.className = 'main-board-set-fail';
+    }
+    
     for (let i = 0; i < clickTile.length; i++) {
         let id = clickTile[i].id;
         let path = clickTile[i].path;
@@ -164,21 +172,53 @@ function set_board_click() {
     clickTile.length = 0;
 }
 let PorF = [];
+//타일의 숫자가 모두 똑같은지 비교
+function is777(tile){
+    let firstNum = tile[0].number;
+    let isColor = [];
+    isColor.push(tile[0].color);
+    for(let i = 1; i < tile.length; i++){
+        if(isColor.includes(tile[i].color)) return false;
+        isColor.push(tile[i].color);
+        if(firstNum != tile[i].number) return false;
+    }
+    return true;
+}
+function is789(tile){
+    let isColor = [];
+    isColor.push(tile[0].color);
+    for(let i = 1; i < tile.length; i++){
+        if(!isColor.includes(tile[i].color)) return false;
+        isColor.push(tile[i].color);
+        if((Number)(tile[i - 1].number) + 1 != tile[i].number) return false;
+    }
+    return true;
+}
 function isPass(){
+    if(clickTile.length < 3) return false;
     PorF = clickTile.slice();
-    console.log(PorF);
+    tile_a_to_z(PorF);
+    const tile777 = is777(PorF);
+    if(!tile777){
+        const tile789 = is789(PorF);
+        if(!tile789){
+            return false;
+        }
+        return true;
+    }
+    return true;    
 }
 
 // 플레이어 타일 sort
 //숫자 정렬
-function player_a_to_z(){
-    playerTile.sort(function(a, b){
+function tile_a_to_z(arrTile){
+    arrTile.sort(function(a, b){
         return a.number - b.number;
     })
 }
 //색깔 정렬
-function player_r_to_b(){
-    playerTile.sort(function(a, b){
+function tile_r_to_b(arrTile){
+    arrTile.sort(function(a, b){
         return a.color - b.color;
     })
 }
@@ -188,14 +228,14 @@ function player_tile_refresh(){
 }
 
 function r_to_b_click(){
-    player_r_to_b();
-    player_a_to_z();
+    tile_r_to_b(playerTile);
+    tile_a_to_z(playerTile);
+
     player_tile_refresh();
 }
 function a_to_z_click(){
-    player_a_to_z();
-    player_r_to_b();
+    tile_a_to_z(playerTile);
+    tile_r_to_b(playerTile);
 
     player_tile_refresh();
 }
-
