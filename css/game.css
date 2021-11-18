@@ -6,8 +6,24 @@
     padding: 0;
     color: #000;
 }
+.no-drag {-ms-user-select: none; -moz-user-select: -moz-none; -webkit-user-select: none; -khtml-user-select: none; user-select:none;}
 .nav{
     padding: 30px;
+}
+.board-body{
+    margin: 0;
+    display: flex;
+}
+.board-body-btn{
+    margin: 0;
+}
+.btn{
+    margin: 0;
+    margin-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100px;
+    height: 100px;
 }
 /* player */
 .nav-player{
@@ -20,27 +36,32 @@ margin-right: 10px;
     float: left;
     border: 3px solid #000;
 }
-/* .player h3{
-    border-bottom: 3px solid #000;
-} */
 .tile {
-    /* width: 2.8vw; */
-    margin: 5px;
+    margin: 4px;
     height: 11vh;
-    background-image: url("../image/tileBack.png");
-    background-size: cover;
-    cursor: grab;
+    cursor: pointer;
+    -webkit-user-drag: none;
 }
 .main-board{
-    margin: 30px;
-    height: 50vh;
-    width: 84vw;
+    padding: 10px;
+    margin: 20px;
+    height: 40vh;
+    width: 85vw;
     border: 1px solid black;
 }
 .player-board,
 .AI-board{
-    margin: 30px;
-    height: 25vh;
-    width: 84vw;
+    padding: 10px;
+    margin: 0;
+    margin-left: 20px;
+    /* margin-right: 30px; */
+    height: auto;
+    min-height: 220px;
+    width: 85vw;
     border: 1px solid black;
+}
+.tile-click{
+    border-radius: 10px;
+    background-color: rgb(255, 181, 43);
+    box-shadow: 0px 0px 5px 5px rgb(255, 188, 43);
 }
