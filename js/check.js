@@ -9,7 +9,7 @@ const tileColor = {
     "8": 4
 }
 const initTile = [];
-const inputTile = () => {
+function inputTile(){
     for (let i = 1; i <= 8; i++) {
         for (let j = 1; j <= 13; j++) {
             initTile.push({
@@ -45,19 +45,24 @@ shuffle(initTile);
 const playerTile = [];
 const AITile = [];
 const remainTile = [];
-for (let i = 0, p = 0, a = 0, r = 0; i < 104;) {
-    if (i < 28) {
-        playerTile[p++] = initTile[i++];
-        AITile[a++] = initTile[i++];
-    } else {
-        remainTile[r++] = initTile[i++];
+function splitTile(){
+    for (let i = 0, p = 0, a = 0, r = 0; i < 104;) {
+        if (i < 28) {
+            playerTile[p++] = initTile[i++];
+            AITile[a++] = initTile[i++];
+        } else {
+            remainTile[r++] = initTile[i++];
+        }
     }
 }
+splitTile();
 // console.log(playerTile.length, AITile.length, remainTile.length);
 
-playerBoard = document.querySelector('.player-board');
-input_player_tile();
-function input_player_tile(){
+const playerBoard = document.querySelector('.player-board');
+const AIBoard = document.querySelector('.AI-board');
+const mainBoard = document.querySelector('.main-board');
+
+function show_player_tile(){
     for (let i = 0; i < playerTile.length; i++) {
         let id = playerTile[i].id;
         let path = playerTile[i].path;
@@ -65,18 +70,20 @@ function input_player_tile(){
     }
 }
 
-AIBoard = document.querySelector('.AI-board');
-// for (let i = 0; i < playerTile.length; i++) {
-//     let id = AITile[i].id;
-//     let path = AITile[i].path;
-//     AIBoard.innerHTML += '<img onclick="AI_tile_click(' + id + ')" id="' + id + '" src="image/' + path + '.svg" class="tile no-drag">';
-// }
-// mainBoard = document.querySelector('.main-board');
-// for(let i = 0; i < remainTile.length; i++){
-//     let path = remainTile[i]?.id;
-//     mainBoard.innerHTML +='<img src="image/' + path + '.svg" class="tile">';
-// }
-
+function show_tile(){
+    for (let i = 0; i < playerTile.length; i++) {
+        let id = AITile[i].id;
+        let path = AITile[i].path;
+        AIBoard.innerHTML +='<img src="image/' + path + '.svg" class="tile">';
+    }
+    
+    for(let i = 0; i < remainTile.length; i++){
+        let path = remainTile[i]?.path;
+        mainBoard.innerHTML +='<img src="image/' + path + '.svg" class="tile">';
+    }
+}
+show_player_tile();
+show_tile();
 //타일 이동
 // const tiles = document.querySelectorAll(".tile");
 // const boards = document.querySelectorAll(".board");
@@ -108,7 +115,7 @@ function tile_click_shadow(id) {
 }
 
 function plyaer_tile_click(id) {
-    //alert(id); 
+    // alert(id); 
     const tilInfo = playerTile.findIndex((e) => {
         return e.id == id;
     });
@@ -122,9 +129,9 @@ function plyaer_tile_click(id) {
         clickTile.splice(popTile, 1);
     }
     tile_click_shadow(id);
-    // console.log("tile", tile)
-    // console.log(clickTile)
-    // console.log(playerTile[tilInfo]);
+    console.log("tile", tile);
+    console.log("clickTile", clickTile);
+    console.log(playerTile[tilInfo]);
 }
 
 function AI_tile_click(id) {

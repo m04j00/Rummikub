@@ -44,7 +44,7 @@ margin-right: 10px;
 .main-board > div{
     padding: 3px;
     margin: 5px;
-    float:left;
+    /* float:left; */
 
     border-radius: 10px;
 }
