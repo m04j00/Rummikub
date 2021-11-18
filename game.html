@@ -11,7 +11,7 @@
 
 <body>
     <!-- nav -->
-    <nav class="nav">
+    <div class="nav">
         <!-- player -->
         <div class="nav-player">
             <ul class="player">
@@ -27,24 +27,33 @@
         </div>
         <!-- time/tile -->
         <span class="time-text">제한 시간 01:00</span>
-        <span class="remaining-tile-text">남은 타일 개수 78</p>
-    </nav>
-
+        <span class="remaining-tile-text">남은 타일 개수 76</span>
+    </div>
     <!-- main board -->
-    <div class="main-board">
-        <div class="set-board" onclick="set_board_click()">
-            <img src="/image/set.svg" class="tile-set" id="tile-set">
+    <div class="board-body">
+        <div class="main-board">
+            <div class="set-board" onclick="set_board_click()">
+                <img src="/image/set.svg" class="tile-set" id="tile-set">
+            </div>
+        </div>
+        <div class="board-body-btn main-body-before-btn">
+            <button class="btn main-before-btn r-to-b" onclick="r_to_b_click()">skip turn</button>
+        </div>
+        <div class="board-body-btn main-body-after-btn">
+            <button class="btn main-after-btn r-to-b" onclick="r_to_b_click()">새로고침</button><br>
+            <button class="btn main-after-btn a-to-z" onclick="a_to_z_click()">등록</button>
         </div>
     </div>
     <!-- player board -->
     <div class="board-body">
         <div class="player-board"></div>
         <div class="board-body-btn">
-            <button class="btn r-to-b" onclick="r_to_b_click()">777</button><br>
-            <button class="btn a-to-z" onclick="a_to_z_click()">789</button>
+            <button class="btn player-btn r-to-b" onclick="r_to_b_click()">777</button><br>
+            <button class="btn player-btn a-to-z" onclick="a_to_z_click()">789</button>
         </div>
     </div>
-    
+
+
     <script type="text/javascript" src="js/game.js"></script>
 
 </body>
