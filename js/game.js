@@ -59,7 +59,7 @@ const tileColor = {
     "8": 4
 }
 // 타일 저장
-function inputTile(){
+function inputTile() {
     for (let i = 1; i <= 8; i++) {
         for (let j = 1; j <= 13; j++) {
             initTile.push({
@@ -72,7 +72,7 @@ function inputTile(){
     }
 }
 // 타일 섞기
-function shuffle(arr){
+function shuffle(arr) {
     arr.sort(() => Math.random() - 0.5);
 }
 inputTile();
@@ -83,7 +83,8 @@ shuffle(initTile);
 const playerTile = [];
 const AITile = [];
 const remainTile = [];
-function splitTile(){
+
+function splitTile() {
     for (let i = 0, p = 0, a = 0, r = 0; i < 104;) {
         if (i < 28) {
             playerTile[p++] = initTile[i++];
@@ -100,7 +101,7 @@ const playerBoard = document.querySelector('.player-board');
 const mainBoard = document.querySelector('.main-board');
 
 // plyaer 타일 띄우기
-function show_player_tile(){
+function show_player_tile() {
     for (let i = 0; i < playerTile.length; i++) {
         let id = playerTile[i].id;
         let path = playerTile[i].path;
@@ -133,6 +134,13 @@ function player_tile_click(id) {
         clickTile.splice(popTile, 1);
     }
     tile_click_shadow(id);
+
+    // 타일 선택 시 커서 변경
+    if (clickTile.length > 0) {
+        document.getElementById('tile-set').style.cursor = "pointer";
+    } else {
+        document.getElementById('tile-set').style.cursor = "default";
+    }
     console.log("tile", tile);
     console.log("clickTile", clickTile);
     console.log(playerTile[tilInfo]);
@@ -140,31 +148,109 @@ function player_tile_click(id) {
 
 // 플레이어 타일 sort
 //숫자 정렬
-function tile_a_to_z(arrTile){
-    arrTile.sort(function(a, b){
+function tile_a_to_z(arrTile) {
+    arrTile.sort(function (a, b) {
         return a.number - b.number;
     })
 }
 //색깔 정렬
-function tile_r_to_b(arrTile){
-    arrTile.sort(function(a, b){
+function tile_r_to_b(arrTile) {
+    arrTile.sort(function (a, b) {
         return a.color - b.color;
     })
 }
-function player_tile_refresh(){
+
+function player_tile_refresh() {
     playerBoard.innerText = '';
     show_player_tile();
 }
 
-function r_to_b_click(){
+function r_to_b_click() {
     tile_r_to_b(playerTile);
     tile_a_to_z(playerTile);
 
     player_tile_refresh();
 }
-function a_to_z_click(){
+
+function a_to_z_click() {
     tile_a_to_z(playerTile);
     tile_r_to_b(playerTile);
 
     player_tile_refresh();
+}
+
+// 타일 등록
+function set_board_click() {
+    const setIsPass = isPass();
+    const mainBoard = document.querySelector('.main-board');
+    let div = document.createElement("div");
+    // console.log(div);
+
+    if(setIsPass){
+        div.className = 'main-board-set-pass';
+    }
+    else{
+        div.className = 'main-board-set-fail';
+    }
+    
+    for (let i = 0; i < clickTile.length; i++) {
+        let id = clickTile[i].id;
+        let path = clickTile[i].path;
+
+        //플레이어 보드에 이미지 노드 삭제
+        const tileInfo = playerTile.findIndex((e) => {
+            return e.id == id;
+        });
+        playerTile.splice(tileInfo, 1);
+        const nodeImg = document.getElementById(id);
+        playerBoard.removeChild(nodeImg);
+
+        //메인 보드에 이미지 노드 추가
+        const set_tile = document.querySelector('.set-board');
+        div.innerHTML += '<img onclick="plyaer_tile_click(' + id + ')" id="' + id + '" src="image/' + path + '.svg" class="tile no-drag">';
+        mainBoard.insertBefore(div, set_tile);
+    }
+    clickTile.length = 0;
+}
+
+// 등록 시 조건 일치 확인
+let PorF = [];
+//타일의 숫자가 모두 똑같은지 비교
+function is777(tile){
+    let firstNum = tile[0].number;
+    let isColor = [];
+    isColor.push(tile[0].color);
+    for(let i = 1; i < tile.length; i++){
+        if(isColor.includes(tile[i].color)) return false;
+        isColor.push(tile[i].color);
+        if(firstNum != tile[i].number) return false;
+    }
+    return true;
+}
+//타일의 숫자가 연속인지 비교
+function is789(tile){
+    let isColor = [];
+    isColor.push(tile[0].color);
+    for(let i = 1; i < tile.length; i++){
+        if(!isColor.includes(tile[i].color)) return false;
+        isColor.push(tile[i].color);
+        if((Number)(tile[i - 1].number) + 1 != tile[i].number) return false;
+    }
+    return true;
+}
+//모든 조건을 만족하는지 확인
+function isPass(){
+    if(clickTile.length < 3) return false;
+    PorF = clickTile.slice();
+    tile_a_to_z(PorF);
+    const tile777 = is777(PorF);
+    if(!tile777){
+        const tile789 = is789(PorF);
+        if(!tile789){
+            return false;
+        }
+        tile_a_to_z(clickTile);
+        return true;
+    }
+    return true;    
 }
