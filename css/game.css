@@ -15,29 +15,6 @@
     margin: 0;
     display: flex;
 }
-.board-body-btn{
-    margin: 0;
-}
-.btn{
-    margin: 0;
-    margin-left: 20px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    width: 100px;
-}
-.main-before-btn{
-    margin-top: 0;
-    height: 360px;
-}
-.main-body-after-btn{
-    display: none;
-}
-.main-after-btn{
-    height: 160px;
-}
-.player-btn{
-    height: 100px;
-}
 /* player */
 .nav-player{
     text-align: center;
@@ -98,4 +75,28 @@ margin-right: 10px;
 }
 .main-board-set-fail{
     background-color: rgba(230, 29, 29, 0.911);
+}
+/* 버튼 */
+.board-body-btn{
+    margin: 0;
+}
+.btn{
+    margin: 0;
+    margin-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100px;
+}
+.main-before-btn{
+    margin-top: 0;
+    height: 360px;
+}
+.main-body-after-btn{
+    display: none;
+}
+.main-after-btn{
+    height: 160px;
+}
+.player-btn{
+    height: 100px;
 }
