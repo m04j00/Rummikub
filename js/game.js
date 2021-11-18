@@ -113,7 +113,7 @@ show_player_tile();
 // 타일 선택 시 후광 효과
 // 타일 선택 시 clickTile 배열에 추가
 const clickTile = [];
-
+const nowTurnTile = [];
 function tile_click_shadow(id) {
     const tile = document.getElementById(id);
     tile.classList.toggle('tile-click');
@@ -121,12 +121,13 @@ function tile_click_shadow(id) {
 
 function player_tile_click(id) {
     // alert(id); 
-    const tilInfo = playerTile.findIndex((e) => {
+    const tileInfo = playerTile.findIndex((e) => {
         return e.id == id;
     });
     const tile = document.getElementById(id);
     if (!tile.classList.contains('tile-click')) {
-        clickTile.push(playerTile[tilInfo]);
+        clickTile.push(playerTile[tileInfo]);
+        nowTurnTile.push(playerTile[tileInfo]);
     } else {
         const popTile = clickTile.findIndex((e) => {
             return e.id == id;
@@ -143,7 +144,7 @@ function player_tile_click(id) {
     }
     console.log("tile", tile);
     console.log("clickTile", clickTile);
-    console.log(playerTile[tilInfo]);
+    console.log(playerTile[tileInfo]);
 }
 
 // 플레이어 타일 sort
@@ -188,9 +189,13 @@ function set_board_click() {
 
     if(setIsPass){
         div.className = 'main-board-set-pass';
+        div.className += ' add-tile';
+        div.className += ' now-tile'
     }
     else{
         div.className = 'main-board-set-fail';
+        div.className += ' add-tile';
+        div.className += ' now-tile'
     }
     
     for (let i = 0; i < clickTile.length; i++) {
@@ -211,6 +216,7 @@ function set_board_click() {
         mainBoard.insertBefore(div, set_tile);
     }
     clickTile.length = 0;
+    hasChildMainBoard();
 }
 
 // 등록 시 조건 일치 확인
@@ -253,4 +259,62 @@ function isPass(){
         return true;
     }
     return true;    
+}
+
+// 버튼
+const addTile = document.querySelector(".add-tile");
+const beforeBtn = document.querySelector(".main-body-before-btn");
+const afterBtn = document.querySelector(".main-body-after-btn");
+
+// 메인 보드에 등록 시 버튼 변경 (skip turn -> 초기화/등록)
+function hasChildMainBoard(){
+    const addTile = document.querySelector(".add-tile");
+    const beforeBtn = document.querySelector(".main-body-before-btn");
+    const afterBtn = document.querySelector(".main-body-after-btn");
+    if(addTile != null){
+        beforeBtn.style.display = 'none';   
+        afterBtn.style.display = 'block';
+    }
+}
+
+function skip_turn_click(){
+    //로봇 적용 전
+    // 타일 푸쉬
+    playerTile.push(remainTile.pop());
+    player_tile_refresh();
+    // 턴 바꿈 -- 적용 전
+}
+
+function refresh_click(){
+    // console.log(nowTurnTile);
+    for(let i = 0; i < nowTurnTile.length; i++){
+        const id = nowTurnTile[i].id;
+        const tilInfo = nowTurnTile.findIndex((e) => {
+            return e.id == id;
+        });
+        playerTile.push(nowTurnTile[tilInfo]);
+        // console.log(playerTile[playerTile.length - 1]);
+    }
+    document.querySelector('.now-tile').remove();
+    player_tile_refresh();
+    beforeBtn.style.display = 'block';   
+    afterBtn.style.display = 'none';
+    nowTurnTile.length = 0;
+}
+
+function pass_click(){
+    const tile = document.querySelector('.now-tile');
+    console.log(tile);
+    if(tile.classList.contains('main-board-set-pass')){
+        tile.classList.remove('now-tile');
+    }
+    else{
+        alert("조건이 일치하지 않습니다.");
+        return;
+    }
+    beforeBtn.style.display = 'block';   
+    afterBtn.style.display = 'none';
+    nowTurnTile.length = 0;
+    // 턴 바꾸기 -- 적용 전
+
 }

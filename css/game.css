@@ -100,3 +100,6 @@ margin-right: 10px;
 .player-btn{
     height: 100px;
 }
+.btn:hover{
+    cursor: pointer;
+}
