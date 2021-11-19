@@ -55,6 +55,7 @@ padding-bottom: 12px;
     height: 11vh;
     cursor: pointer;
     -webkit-user-drag: none;
+    padding: 0;
 }
 .main-board{
     padding: 10px;
@@ -83,17 +84,21 @@ padding-bottom: 12px;
     width: 85vw;
     border: 1px solid black;
 }
+.player-board > div{
+    float:left;
+}
 .tile-click{
     border-radius: 10px;
-    background-color: rgb(255, 181, 43);
-    box-shadow: 0px 0px 5px 5px rgb(255, 188, 43);
+    /* background-color: rgb(255, 181, 43); */
+    box-shadow: -1px 0px 5px 5px rgb(255, 188, 43);
 }
 .tile-set{
+    margin-left: 5px;
     margin-top: 5px;
     height: 11vh;
-    cursor: default;
+    cursor: pointer;
+    
 }
-
 .main-board-set-pass{
     background-color: rgb(187, 245, 255);
 }

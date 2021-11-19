@@ -83,7 +83,7 @@ function show_tile(){
     }
 }
 show_player_tile();
-show_tile();
+// show_tile();
 //타일 이동
 // const tiles = document.querySelectorAll(".tile");
 // const boards = document.querySelectorAll(".board");
