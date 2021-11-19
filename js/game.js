@@ -109,7 +109,7 @@ function show_player_tile() {
     }
 }
 show_player_tile();
-
+mainBoard.innerHTML += '<div class="set-board" onclick="set_board_click()"><img src="/image/set.svg" class="tile-set" id="tile-set"></div>';
 // 타일 선택 시 후광 효과
 // 타일 선택 시 clickTile 배열에 추가
 const clickTile = [];
