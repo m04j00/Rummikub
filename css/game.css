@@ -33,6 +33,9 @@ padding-top: 12px;
 padding-bottom: 12px;
     border-bottom: 1px solid black;
 }
+.now-player{
+    font-weight: bold;
+}
 /* time / remain tile */
 .info{
     text-align: center;
@@ -42,6 +45,10 @@ padding-bottom: 12px;
 }
 .info > div{
     padding-bottom: 5px;
+}
+/* turn */
+.whose-turn{
+    text-align: center;
 }
 .tile {
     margin: 4px;
