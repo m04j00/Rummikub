@@ -3,7 +3,8 @@
 function isUnits(num) {
     return num < 10 ? "0" + num : num;
 }
-
+// 플레이어 (true)- 로봇(false) 순으로 진행
+let playerTurn = true;
 function startCountDown(duration, element) {
     let setTime = duration;
     let min = 0,
@@ -17,14 +18,19 @@ function startCountDown(duration, element) {
 
         setTime--;
         if (setTime < 0) {
+            playerTurn = !playerTurn;
             clearInterval(countInterval);
+            alert(playerTurn);
+            console.log(whoseWin());
+            isPlayerTime();
+            if(whoseWin() != 1) initTime();
         } // 타이머 종료
     }, 1000);
 }
 
 function initTime() {
-    let min = 1;
-    let sec = 0;
+    let min = 0;
+    let sec = 5;
     let duration = min * 60 + sec;
 
     element = document.querySelector('.time-text');
@@ -34,11 +40,13 @@ function initTime() {
 }
 
 function remainingTile(tile) {
+    console.log(tile);
     element = document.querySelector('.remaining-tile-text');
     element.textContent = `남은 타일 개수 ${isUnits(tile)}`;
 }
 window.onload = function () {
-    //initTime();
+    // initTime();
+        
 };
 
 // 타일 나눠주기
@@ -97,6 +105,19 @@ function splitTile() {
 splitTile();
 // console.log(playerTile);
 
+// 턴이 바뀔 때마다 paleyrBoard pointer event none toggle
+let nowTurn = playerTile;
+function isPlayerTime(){
+    if(playerTurn) nowTurn = playerTile;
+    else nowTurn = AITile;
+    playerBoard.classList.toggle('pointer-envent');
+}
+// 게임 종료
+function whoseWin(){
+    if(playerTile.length == 0 || AITile.length == 0) return 1; 
+    else return 0;
+}
+
 const playerBoard = document.querySelector('.player-board');
 const mainBoard = document.querySelector('.main-board');
 
@@ -109,7 +130,7 @@ function show_player_tile() {
     }
 }
 show_player_tile();
-mainBoard.innerHTML += '<div class="set-board" onclick="set_board_click()"><img src="/image/set.svg" class="tile-set" id="tile-set"></div>';
+mainBoard.innerHTML += '<div class="set-board" onclick="set_board_click()"><img src="image/set.svg" class="tile-set" id="tile-set"></div>';
 // 타일 선택 시 후광 효과
 // 타일 선택 시 clickTile 배열에 추가
 const clickTile = [];
@@ -278,6 +299,7 @@ function skip_turn_click(){
     playerTile.push(remainTile.pop())
     console.log("추가된 타일 ", playerTile[playerTile.length - 1]);
     player_tile_refresh();
+    remainingTile(remainTile.length);
     // 턴 바꿈 -- 적용 전
 }
 
