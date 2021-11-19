@@ -7,24 +7,41 @@
     color: #000;
 }
 .no-drag {-ms-user-select: none; -moz-user-select: -moz-none; -webkit-user-select: none; -khtml-user-select: none; user-select:none;}
+
 .nav{
-    margin-bottom: 30px;
-    padding: 30px;
+    margin-bottom: 80px;
+    padding: 20px;
 }
 .board-body{
     margin: 0;
     display: flex;
 }
+
 /* player */
-.nav-player{
+.players{
+    margin-right: 20px;
+    font-size: 20px;
+    display: table;
     text-align: center;
-}
-.player-1{
-margin-right: 10px;
-}
-.player li{
+    width: 80px;
+    height: 80px;
     float: left;
-    border: 3px solid #000;
+    border: 1px solid black;
+}
+.player{
+padding-top: 12px;
+padding-bottom: 12px;
+    border-bottom: 1px solid black;
+}
+/* time / remain tile */
+.info{
+    text-align: center;
+    float: left;
+    font-size: 20px;
+    padding-top: 10px;
+}
+.info > div{
+    padding-bottom: 5px;
 }
 .tile {
     margin: 4px;
