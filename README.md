@@ -1,2 +1,2 @@
 # Rummikub
-[JS]
+https://m04j00.github.io/Rummikub/game
