@@ -99,6 +99,16 @@ padding-bottom: 12px;
     cursor: pointer;
     
 }
+.main-board > :nth-child(n):hover{
+    cursor: pointer;
+    margin: 3px;
+    border: 2px solid black;
+}
+.main-board > :last-child:hover{
+    margin-left: 5px;
+    margin-top: 5px;
+    border: none;
+}
 .main-board-set-pass{
     background-color: rgb(187, 245, 255);
 }

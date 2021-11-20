@@ -294,31 +294,18 @@ function set_board_click() {
             const nodeImg = document.getElementById(id);
             playerBoard.removeChild(nodeImg);
         }else{
-            // 현재 추가한 타일인지  true/false
-            const nowBoardTile = nowTurnTile.some((e) => {
-                return e.id == id;
-            });
-            if(nowBoardTile){
-                document.getElementById(id).remove();
-                for(let i = 0; i < tileBundle - 1; i++){
-                    const div = document.getElementById('bundle' + i);
-                    if(div == null) continue;
-                    //console.log("div : ", div);
-                    if(!div.hasChildNodes()) {
-                        div.remove();
-                    }
-                }
-            }
-            else{
-                document.getElementById(id).remove();
-                for(let i = 0; i < tileBundle - 1; i++){
-                    
-                    const completeBundle = []; 
-                    const success = completeBundeFun(i, completeBundle);
-                    if(success == -1) continue;
-                    //console.log(completeBundle);
+            // // 현재 추가한 타일인지  true/false
+            // const nowBoardTile = nowTurnTile.some((e) => {
+            //     return e.id == id;
+            // });
+            document.getElementById(id).remove();
+            for(let i = 0; i < tileBundle - 1; i++){
+                
+                const completeBundle = []; 
+                const success = completeBundeFun(i, completeBundle);
+                if(success == -1) continue;
+                //console.log(completeBundle);
 
-                }
             }
             // console.log(nowBoardTile);
         }
