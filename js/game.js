@@ -21,7 +21,7 @@ function startCountDown(duration, element) {
         setTime--;
         if (setTime < 0) {
             console.log("현재 턴 : ", playerTurn);
-            if(playerTurn) timeOut();
+            if (playerTurn) timeOut();
             else turnEnd();
         } // 타이머 종료
     }, 1000);
@@ -82,11 +82,29 @@ function inputTile() {
                 "path": `${tileColor[i]}${j}`,
                 "number": `${j}`,
                 "color": `${tileColor[i]}`,
-                "location" : 'player'
+                "location": 'null',
+                "set": 'null'
             })
         }
     }
 }
+// 조커
+initTile.push({
+    "id": `5500`,
+    "path": `500`,
+    "number": `0`,
+    "color": `0`,
+    "location": 'null',
+    "set": 'null'
+})
+initTile.push({
+    "id": `5501`,
+    "path": `501`,
+    "number": `0`,
+    "color": `0`,
+    "location": 'null',
+    "set": 'null'
+})
 // 타일 섞기
 function shuffle(arr) {
     arr.sort(() => Math.random() - 0.5);
@@ -101,10 +119,12 @@ const AITile = [];
 const remainTile = [];
 
 function splitTile() {
-    for (let i = 0, p = 0, a = 0, r = 0; i < 104;) {
+    for (let i = 0, p = 0, a = 0, r = 0; i < 106;) {
         if (i < 28) {
-            playerTile[p++] = initTile[i++];
-            AITile[a++] = initTile[i++];
+            playerTile[p] = initTile[i++];
+            playerTile[p++].location = "player";
+            AITile[a] = initTile[i++];
+            AITile[a++].location = "AI";
         } else {
             remainTile[r++] = initTile[i++];
         }
@@ -119,10 +139,10 @@ let nowTurn = playerTile;
 function isPlayerTime() {
     if (playerTurn) nowTurn = playerTile;
     else nowTurn = AITile;
-    playerBoard.classList.toggle('pointer-envent'); // 플레이어 보드 막기
-    beforeBtn.classList.toggle('pointer-envent'); // skipTurn 버튼 막기
+    playerBoard.classList.toggle('pointer-event'); // 플레이어 보드 막기
+    beforeBtn.classList.toggle('pointer-event'); // skipTurn 버튼 막기
     document.getElementById('tile-set').style.cursor = "default";
-    document.querySelector('.set-main-board').classList.toggle('pointer-envent'); // 타일 등록 버튼 막기
+    document.querySelector('.set-main-board').classList.toggle('pointer-event'); // 타일 등록 버튼 막기
     nowTurnPlayer();
 }
 // 게임 종료
@@ -158,7 +178,7 @@ function show_player_tile() {
         let path = playerTile[i].path;
         let div = document.createElement("div");
         div.id = id;
-        div.innerHTML += '<img onclick="player_tile_click(' + id + ')" id= "img' + id + '" src="image/' + path + '.svg" class="tile no-drag">';
+        div.innerHTML += '<img onclick="player_tile_click(' + id + ')" id= "img' + id + '" src="image/' + path + '.svg" class="tile player-tile no-drag">';
         //div.innerHTML += '<img onclick="player_tile_click(' + id + ')" id="' + id + '" src="image/' + path + '.svg" class="tile no-drag">';
         playerBoard.insertBefore(div, set_tile);
     }
@@ -177,7 +197,11 @@ function tile_click_shadow(id) {
 }
 
 function player_tile_click(id) {
-    // alert(id); 
+    //alert(id); 
+    // for(let i = 0; i < mainBoardTile.length; i++){
+    //     let tile = document.getElementById(mainBoardTile[i].id);
+    //     tile.classList.add('pointer-event');
+    // }
     const tileInfo = playerTile.findIndex((e) => {
         return e.id == id;
     });
@@ -242,29 +266,34 @@ let tileBundle = 0;
 const mainBoardTile = [];
 const mainBoardBundle = [];
 let mainBoardBundleCnt = 0;
-function mainBoardBundleSave(){
+
+function mainBoardBundleSave() {
     mainBoardBundle.length = 0;
     mainBoardBundleCnt = 0;
-    for(let i = 0; i < tileBundle; i++){
+    for (let i = 0; i < tileBundle; i++) {
         const bundle = document.getElementById('bundle' + i);
-        if(bundle== null) continue;
+        if (bundle == null) continue;
         const bundleList = bundle.childNodes;
         mainBoardBundleCnt++;
-        for(let j = 0; j < bundleList.length; j++){
+        for (let j = 0; j < bundleList.length; j++) {
             mainBoardBundle.push({
-                "pId" : 'bundle' + i,
-                "path" : bundleList[j]
+                "pId": 'bundle' + i,
+                "path": bundleList[j]
             })
         }
     }
 }
 // 메인 보드 타일 추가
 const player1_tile = document.querySelector('.player1-tile');
+
 function set_board_click() {
     const setIsPass = isPass(clickTile);
     const mainBoard = document.querySelector('.main-board');
     let div = document.createElement("div");
-    div.id = 'bundle' + tileBundle;
+    let divId = 'bundle' + tileBundle;
+    div.id = divId;
+    let divClick = "main_board_set_click(" + divId + ")";
+    div.setAttribute("onClick", divClick);
     tileBundle++;
     // console.log(div);
 
@@ -275,75 +304,94 @@ function set_board_click() {
         div.className = 'main-board-set-fail';
         div.className += ' add-tile';
     }
-
+    const set_tile = document.querySelector('.set-main-board');
     for (let i = 0; i < clickTile.length; i++) {
-        let id = clickTile[i].id;
-        let path = clickTile[i].path;
-        let location = clickTile[i].location;
-
-        //플레이어 보드에 이미지 노드 삭제
-        if(location == 'player'){
-            const tileInfo = playerTile.findIndex((e) => {
-                return e.id == id;
-            });
-            // 판에 타일 등록 시 nowTurnTile에 추가, 플레이어 타일에서 제거
-            nowTurnTile.push(playerTile[tileInfo]);
-            mainBoardTile.push(nowTurnTile[nowTurnTile.length - 1]);
-            mainBoardTile[mainBoardTile.length - 1]. location = 'mainBoard';
-            playerTile.splice(tileInfo, 1);
-            const nodeImg = document.getElementById(id);
-            playerBoard.removeChild(nodeImg);
-        }else{
-            // // 현재 추가한 타일인지  true/false
-            // const nowBoardTile = nowTurnTile.some((e) => {
-            //     return e.id == id;
-            // });
-            document.getElementById(id).remove();
-            for(let i = 0; i < tileBundle - 1; i++){
-                
-                const completeBundle = []; 
-                const success = completeBundeFun(i, completeBundle);
-                if(success == -1) continue;
-                //console.log(completeBundle);
-
-            }
-            // console.log(nowBoardTile);
-        }
-        //메인 보드에 이미지 노드 추가
-        const set_tile = document.querySelector('.set-main-board');
-        div.innerHTML += '<img onclick="main_board_tile_click(' + id + ')" id="' + id + '" src="image/' + path + '.svg" class="tile no-drag">';
+        mainBoardDivAddTile(i, div, divId);
         mainBoard.insertBefore(div, set_tile);
     }
     player1_tile.textContent = `${playerTile.length}`;
     clickTile.length = 0;
     hasChildMainBoard();
 }
-function completeBundeFun(i, arr){
+
+function mainBoardDivAddTile(i, div, divId) {
+    let id = clickTile[i].id;
+    let path = clickTile[i].path;
+    let location = clickTile[i].location;
+
+    //플레이어 보드에 이미지 노드 삭제
+    if (location == 'player') {
+        // plyaerTile에서 id에 해당하는 index 찾음
+        const tileInfo = playerTile.findIndex((e) => {
+            return e.id == id;
+        });
+        // 판에 타일 등록 시 nowTurnTile에 추가, 플레이어 타일에서 제거
+        nowTurnTile.push(playerTile[tileInfo]);
+        mainBoardTile.push(nowTurnTile[nowTurnTile.length - 1]);
+        mainBoardTile[mainBoardTile.length - 1].location = 'mainBoard';
+        mainBoardTile[mainBoardTile.length - 1].set = divId;
+        playerTile.splice(tileInfo, 1);
+        const nodeImg = document.getElementById(id);
+        playerBoard.removeChild(nodeImg);
+    } else {
+        tileInfo = mainBoardTile.findIndex((e) => {
+            return e.id == id;
+        });
+        if (clickTile[i].set == divId) {
+            return -1;
+        }
+        mainBoardTile[tileInfo].set = divId;
+        document.getElementById(id).remove();
+        for (let i = 0; i < tileBundle - 1; i++) {
+            const completeBundle = [];
+            const success = completeBundeFun(i, completeBundle);
+            if (success == -1) continue;
+            //console.log(completeBundle);
+        }
+        // console.log(nowBoardTile);
+    }
+    //메인 보드에 이미지 노드 추가
+
+    div.innerHTML += '<img onclick="main_board_tile_click(' + id + ')" id="' + id + '" src="image/' + path + '.svg" class="tile board-tile no-drag">';
+}
+
+function completeBundeFun(i, arr) {
     bundle_div = document.getElementById('bundle' + i);
-    if(bundle_div == null) return -1;
-    if(!bundle_div.hasChildNodes()) {
-        bundle_div.remove(); return -1;
+    if (bundle_div == null) return -1;
+    if (!bundle_div.hasChildNodes()) {
+        bundle_div.remove();
+        return -1;
     }
     count = bundle_div.childElementCount;
     //console.log("타일 개수 : ", count);
     //console.log(bundleDiv.childNodes);
-    for(let j = 0; j < count; j++){
+    for (let j = 0; j < count; j++) {
         const reId = bundle_div.childNodes[j].id;
         const tileInfo = mainBoardTile.findIndex((e) => {
             return e.id == reId;
         });
+        let setName = 'bundle' + i;
+        mainBoardTile[tileInfo].set = setName;
         arr.push(mainBoardTile[tileInfo]);
     }
+    console.log(arr);
     const isComplete = isPass(arr);
     //console.log(isComplete);
     if (isComplete) {
+        tile_a_to_z(arr);
+        bundle_div.innerHTML = '';
+        const isSetTile = false;
+        for (let j = 0; j < count; j++) {
+            const id = arr[j].id;
+            const path = id.substring(1);
+            console.log(arr);
+            bundle_div.innerHTML += '<img onclick="main_board_tile_click(' + id + ')" id="' + id + '" src="image/' + path + '.svg" class="tile board-tile no-drag">';
+        }
         bundle_div.className = 'main-board-set-pass';
         bundle_div.className += ' add-tile';
-        bundle_div.className += ' old-tile';
     } else {
         bundle_div.className = 'main-board-set-fail';
         bundle_div.className += ' add-tile';
-        bundle_div.className += ' old-tile';
     }
 }
 let bundle_div;
@@ -356,6 +404,25 @@ function is777(tile) {
     let firstNum = tile[0].number;
     let isColor = [];
     isColor.push(tile[0].color);
+
+    //조커 유무
+    const hasJoker = tile.some((e) => {
+        return e.id == '5500' || e.id == '5501';
+    });
+    //조커가 있다면
+    if(hasJoker) {
+        //조커 인덱스 찾기
+        const joker = tile.findIndex((e) => {
+            return e.id == '5500' || e.id == '5501';
+        });
+        //조커 인덱스가 0이라면 숫자 변경
+        if(joker == 0){
+            firstNum = tile[1].number;
+        }else{
+            tile[joker].number = firstNum;
+        }
+    }
+    console.log(tile)
     for (let i = 1; i < tile.length; i++) {
         if (isColor.includes(tile[i].color)) return false;
         isColor.push(tile[i].color);
@@ -366,7 +433,40 @@ function is777(tile) {
 //타일의 숫자가 연속인지 비교
 function is789(tile) {
     let isColor = [];
-    isColor.push(tile[0].color);
+    let nums = [];
+    //조커 유무
+    const hasJoker = tile.some((e) => {
+        return e.id == '5500' || e.id == '5501';
+    });
+    //조커가 있다면
+    console.log("조커 여부 : ", hasJoker);
+    if(hasJoker) {
+        //조커 인덱스 찾기
+
+        let joker = tile.findIndex((e) => {
+            return e.id == '5500' || e.id == '5501';
+        });
+        console.log("조커의 번호 : ", joker);
+        tile[joker].number = 0;
+        tile_a_to_z(tile);
+        // 조커 인덱스 : 0 
+        console.log("조커의 번호 : ", joker);
+
+        isColor.push(tile[1].color);
+        console.log("세트의 색깔은 ", isColor);
+
+        for(let i of tile){
+            nums.push(i.number);
+        }
+        nums.push(nums[nums.length - 1] + 2);
+        for(let i = 1; i < nums.length; i++){
+            if(nums[i] == ((Number)(nums[i + 1]) - 1)) continue;
+            tile[0].number = (Number)(nums[i]) + 1;
+            tile[0].color = tile[1].color;
+            break;
+        }
+        tile_a_to_z(tile);
+    }
     for (let i = 1; i < tile.length; i++) {
         if (!isColor.includes(tile[i].color)) return false;
         isColor.push(tile[i].color);
@@ -388,6 +488,7 @@ function isPass(tile) {
         tile_a_to_z(tile);
         return true;
     }
+    tile_a_to_z(tile);
     return true;
 }
 
@@ -397,10 +498,8 @@ const afterBtn = document.querySelector(".main-body-after-btn");
 
 // 메인 보드에 등록 시 버튼 변경 (skip turn -> 초기화/등록)
 function hasChildMainBoard() {
-    if (document.querySelector(".add-tile") != null) {
-        beforeBtn.style.display = 'none';
-        afterBtn.style.display = 'block';
-    }
+    beforeBtn.style.display = 'none';
+    afterBtn.style.display = 'block';
 }
 
 function skip_turn_click() {
@@ -415,29 +514,38 @@ function skip_turn_click() {
 }
 
 function refresh_click() {
-    if(mainBoardBundle.length != 0){
+    if (mainBoardBundle.length != 0) {
         mainBoard.innerHTML = '<div class="set-main-board" onclick="set_board_click()"><img src="image/set.svg" class="tile-set" id="tile-set"></div>';
         const set_tile = document.querySelector('.set-main-board');
-        for(let i = 0; i < mainBoardBundle.length; i++){
+        for (let i = 0; i < mainBoardBundle.length; i++) {
             let div;
-            if(document.getElementById(mainBoardBundle[i].pId) == null){
+            let divId = mainBoardBundle[i].pId;
+            if (document.getElementById(divId) == null) {
                 div = document.createElement("div");
-                div.id = mainBoardBundle[i].pId;
+                div.id = divId;
                 div.className = 'main-board-set-pass';
-            }
-            else{
-                div = document.getElementById(mainBoardBundle[i].pId);
+                let divClick = "main_board_set_click(" + divId + ")";
+                div.setAttribute("onClick", divClick);
+                
+            } else {
+                div = document.getElementById(divId);
             }
             const id = mainBoardBundle[i].path.id;
             const path = id.substring(1);
             console.log(div);
-            div.innerHTML += '<img onclick="main_board_tile_click(' + id + ')" id="' + id + '" src="image/' + path + '.svg" class="tile no-drag">';
+            div.innerHTML += '<img onclick="main_board_tile_click(' + id + ')" id="' + id + '" src="image/' + path + '.svg" class="tile board-tile no-drag">';
             mainBoard.insertBefore(div, set_tile);
         }
     }
-    for (let i = 0; i < nowTurnTile.length; i++) {
-        playerTile.push(nowTurnTile[i]);
+    for (let i of nowTurnTile) {
+        i.set = "null";
+        i.location = "player";
+        playerTile.push(i);
         //console.log("플레이어 타일에 다시 추가 ", playerTile[playerTile.length - 1]);
+        const tileInfo = nowTurnTile.findIndex((e) => {
+            return e.id == i.id;
+        });
+        mainBoardTile.splice(tileInfo, 1);
     }
     while (document.querySelector('.add-tile') != null) {
         document.querySelector('.add-tile').remove();
@@ -457,7 +565,7 @@ function pass_click() {
         const tile = document.querySelector('.add-tile');
         tile.classList.remove('add-tile');
         tile.classList.add('old-tile');
-        
+
     } else {
         alert("조건이 일치하지 않습니다.");
         return;
@@ -469,7 +577,7 @@ function pass_click() {
     turnEnd();
 }
 // 누구의 턴인가 
-function nowTurnPlayer(){
+function nowTurnPlayer() {
     let player1 = document.querySelector('.player1');
     let player2 = document.querySelector('.player2');
     let player2_tile = document.querySelector('.player2-tile');
@@ -481,7 +589,20 @@ function nowTurnPlayer(){
 }
 
 //메인 보드 타일 onclick
-function main_board_tile_click(id){
+function main_board_tile_click(id) {
+    console.log("main_board_tile_click");
+    // if (clickTile.length == 0) {
+    //     event.stopPropagation();
+    // } else {
+    //     const isClickTile = clickTile.some((e) => {
+    //         return e.id == id;
+    //     });
+    //     console.log("isClickTile", isClickTile);
+    //     if (isClickTile) {
+    //         event.stopPropagation();
+    //     }
+    // }
+    event.stopPropagation();
     const tileInfo = mainBoardTile.findIndex((e) => {
         return e.id == id;
     });
@@ -496,41 +617,86 @@ function main_board_tile_click(id){
     }
     tile_click_shadow(id);
 }
-function set_player_board_click(){
+//플레이어보드 버튼 클릭
+function set_player_board_click() {
     const set_tile = document.querySelector('.set-player-board');
     for (let i = 0; i < clickTile.length; i++) {
         let id = clickTile[i].id;
         let path = clickTile[i].path;
         let location = clickTile[i].location;
-        if(location == 'mainBoard'){
+        if (location == 'mainBoard') {
             const tileInfo = mainBoardTile.findIndex((e) => {
                 return e.id == id;
             });
             const nowBoardTile = nowTurnTile.some((e) => {
                 return e.id == id;
             });
-            if(nowBoardTile){
+            if (nowBoardTile) {
                 const nowTurnLoc = nowTurnTile.findIndex((e) => {
                     return e.id == id;
                 });
                 nowTurnTile.splice(nowTurnLoc, 1);
                 playerTile.push(mainBoardTile[tileInfo]);
                 playerTile[playerTile.length - 1].location = "player";
+                playerTile[playerTile.length - 1].set = "null";
                 mainBoardTile.splice(tileInfo, 1);
                 const tile = document.getElementById(id);
                 tile.remove();
-                for(let i = 0; i < tileBundle; i++){
-                    const completeBundle = []; 
+                for (let i = 0; i < tileBundle; i++) {
+                    const completeBundle = [];
                     const success = completeBundeFun(i, completeBundle);
-                    if(success == -1) continue;
+                    if (success == -1) continue;
                 }
+            } else {
+                tile_click_shadow(id);
+                continue;
             }
-            else continue;
             let div = document.createElement("div");
             div.id = id;
             div.innerHTML += '<img onclick="player_tile_click(' + id + ')" id= "img' + id + '" src="image/' + path + '.svg" class="tile no-drag">';
             playerBoard.insertBefore(div, set_tile);
+        } else {
+            tile_click_shadow('img' + id);
         }
     }
     clickTile.length = 0;
+    if (clickTile.length == 0) {
+        beforeBtn.style.display = 'block';
+        afterBtn.style.display = 'none';
+    }
+}
+
+function main_board_set_click(div) {
+    console.log("click")
+    if (clickTile.length == 0) {
+        return;
+    }
+    hasChildMainBoard();
+    console.log("div", div.id);
+    for (let i = 0; i < clickTile.length; i++) {
+        let nowDIv = mainBoardDivAddTile(i, div, div.id);
+        if (nowDIv == -1) tile_click_shadow(clickTile[i].id);
+    }
+    for (let i = 0; i < tileBundle; i++) {
+        const completeBundle = [];
+        const success = completeBundeFun(i, completeBundle);
+        if (success == -1) continue;
+        //console.log(completeBundle);
+    }
+    player1_tile.textContent = `${playerTile.length}`;
+    clickTile.length = 0;
+}
+
+function tileClickEvent() {
+    for (let i = 0; i < playerTile.length; i++) {
+        let tile = document.getElementById(playerTile[i].id);
+        if (!tile.classList.contains('pointer-event')) break;
+        tile.classList.remove('pointer-event');
+    }
+    for (let i = 0; i < mainBoardTile.length; i++) {
+        let tile = document.getElementById(mainBoardTile[i].id);
+        if (tile == null) break;
+        if (!tile.classList.contains('pointer-event')) break;
+        tile.classList.remove('pointer-event');
+    }
 }

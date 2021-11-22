@@ -142,6 +142,6 @@ padding-bottom: 12px;
 .btn:hover{
     cursor: pointer;
 }
-.pointer-envent{
+.pointer-event{
     pointer-events: none;
 }
