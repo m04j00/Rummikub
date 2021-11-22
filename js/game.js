@@ -3,7 +3,7 @@
 function isUnits(num) {
     return num < 10 ? "0" + num : num;
 }
-// 플레이어 (true)- 로봇(false) 순으로 진행
+// 플레이어 (true) - 로봇(false) 순으로 진행
 let playerTurn = true;
 let countInterval;
 
@@ -243,6 +243,7 @@ function tile_r_to_b(arrTile) {
 }
 
 function player_tile_refresh() {
+    clickTileReset();
     player1_tile.textContent = `${playerTile.length}`;
     playerBoard.innerHTML = '<div class="set-player-board" onclick="set_player_board_click()"><img src="image/set.svg" class="tile-set" id="tile-set"></div>';
     show_player_tile();
@@ -410,15 +411,15 @@ function is777(tile) {
         return e.id == '5500' || e.id == '5501';
     });
     //조커가 있다면
-    if(hasJoker) {
+    if (hasJoker) {
         //조커 인덱스 찾기
         const joker = tile.findIndex((e) => {
             return e.id == '5500' || e.id == '5501';
         });
         //조커 인덱스가 0이라면 숫자 변경
-        if(joker == 0){
+        if (joker == 0) {
             firstNum = tile[1].number;
-        }else{
+        } else {
             tile[joker].number = firstNum;
         }
     }
@@ -440,9 +441,8 @@ function is789(tile) {
     });
     //조커가 있다면
     console.log("조커 여부 : ", hasJoker);
-    if(hasJoker) {
+    if (hasJoker) {
         //조커 인덱스 찾기
-
         let joker = tile.findIndex((e) => {
             return e.id == '5500' || e.id == '5501';
         });
@@ -455,17 +455,19 @@ function is789(tile) {
         isColor.push(tile[1].color);
         console.log("세트의 색깔은 ", isColor);
 
-        for(let i of tile){
+        for (let i of tile) {
             nums.push(i.number);
         }
         nums.push(nums[nums.length - 1] + 2);
-        for(let i = 1; i < nums.length; i++){
-            if(nums[i] == ((Number)(nums[i + 1]) - 1)) continue;
+        for (let i = 1; i < nums.length; i++) {
+            if (nums[i] == ((Number)(nums[i + 1]) - 1)) continue;
             tile[0].number = (Number)(nums[i]) + 1;
             tile[0].color = tile[1].color;
             break;
         }
         tile_a_to_z(tile);
+    }else{
+        isColor.push(tile[0].color);
     }
     for (let i = 1; i < tile.length; i++) {
         if (!isColor.includes(tile[i].color)) return false;
@@ -507,13 +509,16 @@ function skip_turn_click() {
     // 타일 푸쉬
     //console.log("남은 타일의 마지막 인덱스 ", remainTile[remainTile.length - 1]);
     playerTile.push(remainTile.pop())
+    playerTile[playerTile.length - 1].location = "player";
     //console.log("추가된 타일 ", playerTile[playerTile.length - 1]);
     player_tile_refresh();
     remainingTile(remainTile.length);
+    clickTileReset();
     turnEnd();
 }
 
 function refresh_click() {
+    clickTileReset();
     if (mainBoardBundle.length != 0) {
         mainBoard.innerHTML = '<div class="set-main-board" onclick="set_board_click()"><img src="image/set.svg" class="tile-set" id="tile-set"></div>';
         const set_tile = document.querySelector('.set-main-board');
@@ -526,7 +531,7 @@ function refresh_click() {
                 div.className = 'main-board-set-pass';
                 let divClick = "main_board_set_click(" + divId + ")";
                 div.setAttribute("onClick", divClick);
-                
+
             } else {
                 div = document.getElementById(divId);
             }
@@ -540,6 +545,7 @@ function refresh_click() {
     for (let i of nowTurnTile) {
         i.set = "null";
         i.location = "player";
+        console.log(i);
         playerTile.push(i);
         //console.log("플레이어 타일에 다시 추가 ", playerTile[playerTile.length - 1]);
         const tileInfo = nowTurnTile.findIndex((e) => {
@@ -684,19 +690,10 @@ function main_board_set_click(div) {
         //console.log(completeBundle);
     }
     player1_tile.textContent = `${playerTile.length}`;
-    clickTile.length = 0;
+    clickTileReset();
 }
 
-function tileClickEvent() {
-    for (let i = 0; i < playerTile.length; i++) {
-        let tile = document.getElementById(playerTile[i].id);
-        if (!tile.classList.contains('pointer-event')) break;
-        tile.classList.remove('pointer-event');
-    }
-    for (let i = 0; i < mainBoardTile.length; i++) {
-        let tile = document.getElementById(mainBoardTile[i].id);
-        if (tile == null) break;
-        if (!tile.classList.contains('pointer-event')) break;
-        tile.classList.remove('pointer-event');
-    }
+//정렬 / reset 등의 버튼 눌렀을 때 clickTile 배열 초기화
+function clickTileReset(){
+    clickTile.length = 0;
 }
