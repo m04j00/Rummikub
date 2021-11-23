@@ -75,8 +75,7 @@ padding-bottom: 12px;
 
     border-radius: 10px;
 }
-.player-board,
-.AI-board{
+.player-board{
     padding: 10px;
     margin: 0;
     margin-left: 20px;

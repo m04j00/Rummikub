@@ -6,78 +6,16 @@
     padding: 0;
     color: #000;
 }
-.no-drag {-ms-user-select: none; -moz-user-select: -moz-none; -webkit-user-select: none; -khtml-user-select: none; user-select:none;}
-.nav{
-    padding: 30px;
-}
-/* player */
-.nav-player{
-    text-align: center;
-}
-.player-1{
-margin-right: 10px;
-}
-.player li{
-    float: left;
-    border: 3px solid #000;
-}
-/* .player h3{
-    border-bottom: 3px solid #000;
-} */
-.tile {
-    /* width: 2.8vw; */
-    margin: 5px;
-    height: 11vh;
-    -webkit-user-drag: none;
-    cursor: pointer;
-}
-.tile:hover{
-    /* border: 1px solid black; */
-    border-radius: 10px;
-}
-.main-board{
-    margin: 30px;
-    height: 100vh;
-    width: 84vw;
-    border: 1px solid black;
-}
-.main-board > div{
-    padding: 3px;
-    margin: 5px;
-    float:left;
 
-    border-radius: 10px;
-}
-.main-board > div:last-child{
-    background-color: initial;
-}
-.main-board-set-pass{
-    background-color: rgb(187, 245, 255);
-}
-.main-board-set-fail{
-    background-color: rgba(230, 29, 29, 0.911);
-}
-.player-board,
-.AI-board,
-.check-board{
-    margin: 30px;
-    height: 30;
-    width: 84vw;
+.robot-board{
+    padding: 10px;
+    margin: 0;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    height: auto;
+    width: 85vw;
     border: 1px solid black;
 }
-.tile-click{
-    border-radius: 10px;
-    background-color: rgb(255, 181, 43);
-    box-shadow: 0px 0px 5px 5px rgb(255, 188, 43);
-}
-.tile-set{
-    height: 11vh;
-}
-.board-body{
-    display: flex;
-}
-.btn{
-    margin: 30px;
-    height: 100px;
-    width: 100px;
+.robot-board > div{
+    float:left;
 }

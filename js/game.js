@@ -162,17 +162,7 @@ function show_player_tile() {
         playerBoard.insertBefore(div, set_tile);
     }
 }
-// function show_player_tile() {
-//     const set_tile = document.querySelector('.set-player-board');
-//     for (let i = 0; i < robotTile.length; i++) {
-//         let id = robotTile[i].id;
-//         let path = robotTile[i].path;
-//         let div = document.createElement("div");
-//         div.id = id;
-//         div.innerHTML += '<img onclick="player_tile_click(' + id + ')" id= "img' + id + '" src="image/' + path + '.svg" class="tile player-tile no-drag">';
-//         playerBoard.insertBefore(div, set_tile);
-//     }
-// }
+
 show_player_tile();
 
 //턴 변경
@@ -187,9 +177,9 @@ function turnEnd() {
 // 남은 타일 수 변경
 function remainingTile() {
     //console.log(tile);
-    const remainTile = remainTile.length;
+    const num = remainTile.length;
     element = document.querySelector('.remaining-tile-text');
-    element.textContent = `남은 타일 개수 ${isUnits(remainTile)}`;
+    element.textContent = `남은 타일 개수 ${isUnits(num)}`;
 }
 
 // 턴이 바뀔 때마다 paleyrBoard pointer event none toggle
@@ -199,8 +189,7 @@ function isPlayerTime() {
     else nowTurn = robotTile;
     playerBoard.classList.toggle('pointer-event'); // 플레이어 보드 막기
     beforeBtn.classList.toggle('pointer-event'); // skipTurn 버튼 막기
-    document.getElementById('tile-set').style.cursor = "default";
-    document.querySelector('.set-main-board').classList.toggle('pointer-event'); // 타일 등록 버튼 막기
+    document.getElementById('tile-set1').classList.toggle('pointer-event'); // 타일 등록 버튼 막기
     nowTurnPlayer();
 }
 
@@ -241,7 +230,7 @@ function player_tile_click(id) {
     const tileInfo = playerTile.findIndex((e) => {
         return e.id == id;
     });
-    const tile = document.getElementById(id);
+    const tile = document.getElementById('img' + id);
     if (!tile.classList.contains('tile-click')) {
         clickTile.push(playerTile[tileInfo]);
         //nowTurnTile.push(playerTile[tileInfo]);
@@ -314,13 +303,21 @@ const player1_tile = document.querySelector('.player1-tile');
 const player2_tile = document.querySelector('.player2-tile');
 // 메인 보드 타일 추가
 function set_board_click(tile) {
+    let loc;
+    if(clickTile.length == 0 && robotAddTile.length == 0) return;
+    if(clickTile.length > 0) {
+        hasChildMainBoard();
+        loc = 'player';
+    }else{
+        loc = 'robot';
+    }
     console.log(tile);
     const setIsPass = isPass(tile);
     const mainBoard = document.querySelector('.main-board');
     let div = document.createElement("div");
     let divId = 'bundle' + tileBundle;
     div.id = divId;
-    let divClick = "main_board_set_click(" + divId + ")";
+    let divClick = "main_board_set_click(" + divId + ", clickTile)";
     div.setAttribute("onClick", divClick);
     tileBundle++;
     // console.log(div);
@@ -337,7 +334,8 @@ function set_board_click(tile) {
         mainBoardDivAddTile(i, div, divId, tile);
         mainBoard.insertBefore(div, set_tile);
     }
-    if(tile[0].location == 'player'){
+    console.log(tile[0]);
+    if(loc == 'player'){
         player1_tile.textContent = `${playerTile.length}`;
         clickTile.length = 0;
     }
@@ -346,7 +344,7 @@ function set_board_click(tile) {
         robotAddTile.length = 0;
     }
     
-    hasChildMainBoard();
+    
 }
 
 function mainBoardDivAddTile(i, div, divId, tile) {
@@ -356,23 +354,8 @@ function mainBoardDivAddTile(i, div, divId, tile) {
     let location = tile[i].location;
 
     //플레이어 보드에 이미지 노드 삭제
-    if (location == 'mainBoard') {
-        tileInfo = mainBoardTile.findIndex((e) => {
-            return e.id == id;
-        });
-        if (tile[i].set == divId) {
-            return -1;
-        }
-        mainBoardTile[tileInfo].set = divId;
-        document.getElementById(id).remove();
-        for (let i = 0; i < tileBundle - 1; i++) {
-            const completeBundle = [];
-            const success = completeBundeFun(i, completeBundle);
-            if (success == -1) continue;
-            //console.log(completeBundle);
-        }
-    } 
-    else {
+
+    if(location == 'robot' || location == 'player') {
         let loc = [];
         let turnTile = [];
         if(location =='player') {
@@ -395,10 +378,22 @@ function mainBoardDivAddTile(i, div, divId, tile) {
         mainBoardTile[mainBoardTile.length - 1].location = 'mainBoard';
         mainBoardTile[mainBoardTile.length - 1].set = divId;
         loc.splice(tileInfo, 1);
-        
-
-        
-        // console.log(nowBoardTile);
+    }
+    else{
+        tileInfo = mainBoardTile.findIndex((e) => {
+            return e.id == id;
+        });
+        if (tile[i].set == divId) {
+            return -1;
+        }
+        mainBoardTile[tileInfo].set = divId;
+        document.getElementById(id).remove();
+        for (let i = 0; i < tileBundle - 1; i++) {
+            const completeBundle = [];
+            const success = completeBundeFun(i, completeBundle);
+            if (success == -1) continue;
+            //console.log(completeBundle);
+        }
     }
     //메인 보드에 이미지 노드 추가
 
@@ -578,7 +573,7 @@ function refresh_click() {
                 div = document.createElement("div");
                 div.id = divId;
                 div.className = 'main-board-set-pass';
-                let divClick = "main_board_set_click(" + divId + ")";
+                let divClick = "main_board_set_click(" + divId + ", clickTile)";
                 div.setAttribute("onClick", divClick);
 
             } else {
@@ -710,16 +705,21 @@ function set_player_board_click() {
     }
 }
 
-function main_board_set_click(div) {
+function main_board_set_click(div, tile) {
+    console.log(div);
+    console.log(div.id);
     console.log("click")
-    if (clickTile.length == 0) {
+    if (tile.length == 0 && robotAddTile.length == 0) {
         return;
     }
-    hasChildMainBoard();
+    if(clickTile.length > 0){
+        hasChildMainBoard();
+    }
+    
     //console.log("div", div.id);
-    for (let i = 0; i < clickTile.length; i++) {
-        let nowDIv = mainBoardDivAddTile(i, div, div.id);
-        if (nowDIv == -1) tile_click_shadow(clickTile[i].id);
+    for (let i = 0; i < tile.length; i++) {
+        let nowDIv = mainBoardDivAddTile(i, div, div.id, tile);
+        if (nowDIv == -1 && clickTile.length > 0) tile_click_shadow(tile[i].id);
     }
     for (let i = 0; i < tileBundle; i++) {
         const completeBundle = [];
@@ -727,8 +727,16 @@ function main_board_set_click(div) {
         if (success == -1) continue;
         //console.log(completeBundle);
     }
-    player1_tile.textContent = `${playerTile.length}`;
-    clickTileReset();
+    
+    if(clickTile.length > 0) {
+        player1_tile.textContent = `${playerTile.length}`;
+        clickTile.length = 0;
+    }
+    else if(robotAddTile.length > 0){
+        player2_tile.textContent = `${robotTile.length}`;
+        robotAddTile.length = 0;
+    }
+
 }
 
 //정렬 / reset 등의 버튼 눌렀을 때 clickTile 배열 초기화
