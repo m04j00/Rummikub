@@ -40,6 +40,7 @@ function initTime() {
 }
 
 window.onload = function () {
+    initTime();
     document.querySelector('.player1').classList.add('now-player');
 };
 
@@ -186,7 +187,10 @@ function remainingTile() {
 let nowTurn = playerTile;
 function isPlayerTime() {
     if (playerTurn) nowTurn = playerTile;
-    else nowTurn = robotTile;
+    else {
+        nowTurn = robotTile;
+        setTimeout(robotTurn, 3000);
+    }
     playerBoard.classList.toggle('pointer-event'); // 플레이어 보드 막기
     beforeBtn.classList.toggle('pointer-event'); // skipTurn 버튼 막기
     document.getElementById('tile-set1').classList.toggle('pointer-event'); // 타일 등록 버튼 막기
@@ -343,8 +347,6 @@ function set_board_click(tile) {
         player2_tile.textContent = `${robotTile.length}`;
         robotAddTile.length = 0;
     }
-    
-    
 }
 
 function mainBoardDivAddTile(i, div, divId, tile) {
@@ -446,6 +448,7 @@ let count;
 let PorF = [];
 //타일의 숫자가 모두 똑같은지 비교
 function is777(tile) {
+    console.log("똑같은 숫자 타일");
     let firstNum = tile[0].number;
     let isColor = [];
     isColor.push(tile[0].color);
@@ -460,14 +463,12 @@ function is777(tile) {
         const joker = tile.findIndex((e) => {
             return e.id == '5500' || e.id == '5501';
         });
+        tile[joker].number = 0;
+        tile_a_to_z(tile);
         //조커 인덱스가 0이라면 숫자 변경
-        if (joker == 0) {
-            firstNum = tile[1].number;
-        } else {
-            tile[joker].number = firstNum;
-        }
+        firstNum = tile[1].number;
+
     }
-    //console.log(tile)
     for (let i = 1; i < tile.length; i++) {
         if (isColor.includes(tile[i].color)) return false;
         isColor.push(tile[i].color);
@@ -477,6 +478,7 @@ function is777(tile) {
 }
 //타일의 숫자가 연속인지 비교
 function is789(tile) {
+    console.log("연속된 숫자 타일");
     let isColor = [];
     let nums = [];
     //조커 유무
@@ -718,8 +720,8 @@ function main_board_set_click(div, tile) {
     
     //console.log("div", div.id);
     for (let i = 0; i < tile.length; i++) {
-        let nowDIv = mainBoardDivAddTile(i, div, div.id, tile);
-        if (nowDIv == -1 && clickTile.length > 0) tile_click_shadow(tile[i].id);
+        let nowDiv = mainBoardDivAddTile(i, div, div.id, tile);
+        if (nowDiv == -1 && clickTile.length > 0) tile_click_shadow(tile[i].id);
     }
     for (let i = 0; i < tileBundle; i++) {
         const completeBundle = [];

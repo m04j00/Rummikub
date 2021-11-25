@@ -1,17 +1,34 @@
 function robotTurn() {
-
+    const doAddTile = addTileSet();
+    console.log("로봇 턴", doAddTile);
+    if(doAddTile){
+        mainBoardBundleSave();
+        turnEnd();
+    }
+    else{
+        robotTile.push(remainTile.pop());
+        robotTile[robotTile.length - 1].location = "robot";
+        remainingTile();
+        turnEnd();
+    }
 }
-
 //추가 가능한 타일 묶음이 있는지 
 function addTileSet() {
     const is789 = addTileSet789();
     if (is789) {
         mainBoardaddTile();
+        return true;
     } else {
         const is777 = addTileSet777();
-        if (is777) mainBoardaddTile();
+        if (is777) {
+            mainBoardaddTile();
+            return true;
+        } else {
+            const doApppend = appendTile();
+            if(doApppend) return true;
+            else return false;
+        }
     }
-
 }
 const robotAddTile = [];
 // 123 등록 가능한지
@@ -91,7 +108,7 @@ function addTileSet777() {
         console.log("number : ", number);
         if (tile[i].number == number) {
             numTile.push(tile[i]);
-        } else if (numTile.length >= 3) {
+        } else if (numTile.length >= 3 && number < 14) {
             let colors = [];
             robotAddTile.push(numTile[0]);
             colors.push(numTile[0].color);
@@ -115,6 +132,7 @@ function addTileSet777() {
         } else {
             numTile.length = 0;
             i--;
+            if(number == 13) return false;
             number++;
         }
     }
@@ -189,9 +207,10 @@ function appendTile() {
                             const div = document.getElementById(divId);
                             robotAddTile.push(robotTile[hasTileColor]);
                             main_board_set_click(div, robotAddTile);
+                            console.log("붙일 타일 있어 함수 종료");
+                            return true;
                         }
-                        console.log("붙일 타일 있어 함수 종료");
-                        return;
+
                     }
                 }
                 // 789인 경우
@@ -213,14 +232,14 @@ function appendTile() {
                         const div = document.getElementById(divId);
                         robotAddTile.push(robotTile[hasMaxNum]);
                         main_board_set_click(div, robotAddTile);
-                        return;
+                        return true;
                     } else if (hasMinNum != -1) {
                         console.log("세트의 붙일 값 존재 - hasMinNum");
                         const divId = 'bundle' + cnt;
                         const div = document.getElementById(divId);
                         robotAddTile.push(robotTile[hasMinNum]);
                         main_board_set_click(div, robotAddTile);
-                        return;
+                        return true;
                     }
                 }
                 setTile.length = 0;
@@ -232,7 +251,7 @@ function appendTile() {
     }
     console.log("robotAddTile", robotAddTile);
     console.log("붙일 타일 없어 함수 종료");
-    return;
+    return false;
 }
 //메인 보드에 타일 붙이기
 function mainBoardaddTile() {
