@@ -388,7 +388,11 @@ function mainBoardDivAddTile(i, div, divId, tile) {
         if (tile[i].set == divId) {
             return -1;
         }
-        mainBoardTile[tileInfo].set = divId;
+        
+        mainBoardTile.push(mainBoardTile[tileInfo]);
+        mainBoardTile[mainBoardTile.length - 1].set = divId;
+        mainBoardTile.splice(tileInfo, 1);
+        
         document.getElementById(id).remove();
         for (let i = 0; i < tileBundle - 1; i++) {
             const completeBundle = [];
@@ -464,16 +468,28 @@ function is777(tile) {
             return e.id == '5500' || e.id == '5501';
         });
         tile[joker].number = 0;
+        tile[joker].color = 0;
+        console.log(tile[joker]);
         tile_a_to_z(tile);
+        
         //조커 인덱스가 0이라면 숫자 변경
         firstNum = tile[1].number;
-
+        tile[0].number = firstNum;
+        isColor.pop();
+        isColor.push(tile[0].color);
     }
+    const colors = ['1','2','3','4'];
     for (let i = 1; i < tile.length; i++) {
-        if (isColor.includes(tile[i].color)) return false;
-        isColor.push(tile[i].color);
+        const color = tile[i].color;
+        if (isColor.includes(color)) return false;
+        isColor.push(color);
+        const hasColor = colors.indexOf(color); 
+        if (hasColor > -1) {
+            colors.splice(hasColor, 1);
+        }
         if (firstNum != tile[i].number) return false;
     }
+    tile[0].color = colors[0];
     return true;
 }
 //타일의 숫자가 연속인지 비교

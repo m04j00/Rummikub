@@ -144,6 +144,7 @@ function appendTile() {
     const tile = mainBoardTile.slice();
     console.log(tile);
     console.log(tile.length);
+    console.log("정렬 타일 ", tile);
     //faker tile
     tile.push({
         "id": `5500`,
