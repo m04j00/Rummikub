@@ -191,9 +191,9 @@ function isPlayerTime() {
         nowTurn = robotTile;
         setTimeout(robotTurn, 3000);
     }
-    playerBoard.classList.toggle('pointer-event'); // 플레이어 보드 막기
+    // playerBoard.classList.toggle('pointer-event'); // 플레이어 보드 막기
     beforeBtn.classList.toggle('pointer-event'); // skipTurn 버튼 막기
-    document.getElementById('tile-set1').classList.toggle('pointer-event'); // 타일 등록 버튼 막기
+    mainBoard.classList.toggle('pointer-event')
     nowTurnPlayer();
 }
 
@@ -245,6 +245,14 @@ function player_tile_click(id) {
         clickTile.splice(popTile, 1);
     }
     tile_click_shadow('img' + id);
+
+    const hasClass = mainBoard.classList.contains('tile-click-poiner');
+    if(clickTile.length > 0){
+        if(!hasClass) mainBoard.classList.add('tile-click-poiner');
+    }
+    else{
+        if(hasClass) mainBoard.classList.remove('tile-click-poiner');
+    }
 }
 
 // 플레이어 타일 sort
@@ -347,6 +355,7 @@ function set_board_click(tile) {
         player2_tile.textContent = `${robotTile.length}`;
         robotAddTile.length = 0;
     }
+    mainBoard.classList.remove('tile-click-poiner');
 }
 
 function mainBoardDivAddTile(i, div, divId, tile) {
@@ -380,6 +389,7 @@ function mainBoardDivAddTile(i, div, divId, tile) {
         mainBoardTile[mainBoardTile.length - 1].location = 'mainBoard';
         mainBoardTile[mainBoardTile.length - 1].set = divId;
         loc.splice(tileInfo, 1);
+        console.log("타일 인덱스 : ", mainBoardTile.length);
     }
     else{
         tileInfo = mainBoardTile.findIndex((e) => {
@@ -392,7 +402,7 @@ function mainBoardDivAddTile(i, div, divId, tile) {
         mainBoardTile.push(mainBoardTile[tileInfo]);
         mainBoardTile[mainBoardTile.length - 1].set = divId;
         mainBoardTile.splice(tileInfo, 1);
-        
+        console.log("타일 인덱스 : ", mainBoardTile.length);
         document.getElementById(id).remove();
         for (let i = 0; i < tileBundle - 1; i++) {
             const completeBundle = [];
@@ -422,8 +432,10 @@ function completeBundeFun(i, arr) {
             return e.id == reId;
         });
         let setName = 'bundle' + i;
-        mainBoardTile[tileInfo].set = setName;
+        mainBoardTile.push(mainBoardTile[tileInfo]);
+        mainBoardTile[mainBoardTile.length - 1].set = setName;
         arr.push(mainBoardTile[tileInfo]);
+        mainBoardTile.splice(tileInfo, 1);
     }
     //console.log(arr);
     const isComplete = isPass(arr);
@@ -489,7 +501,9 @@ function is777(tile) {
         }
         if (firstNum != tile[i].number) return false;
     }
-    tile[0].color = colors[0];
+    if (hasJoker) {
+        tile[0].color = colors[0];
+    }
     return true;
 }
 //타일의 숫자가 연속인지 비교
@@ -581,13 +595,18 @@ function skip_turn_click() {
 
 function refresh_click() {
     clickTileReset();
+    console.log(mainBoardBundle.length);
     if (mainBoardBundle.length != 0) {
-        mainBoard.innerHTML = '<div class="set-main-board" onclick="set_board_click(clickTile)"><img src="image/set.svg" class="tile-set" id="tile-set"></div>';
-        const set_tile = document.querySelector('.set-main-board');
+        // mainBoard.innerHTML = '<div class="set-main-board" onclick="set_board_click(clickTile)"><img src="image/set.svg" class="tile-set" id="tile-set1"></div>';
+        mainBoard.innerHTML = '';
+        // const set_tile = document.querySelector('.set-main-board');
         for (let i = 0; i < mainBoardBundle.length; i++) {
+            console.log("통과 1")
             let div;
             let divId = mainBoardBundle[i].pId;
+            console.log("divId", document.getElementById(divId));
             if (document.getElementById(divId) == null) {
+                console.log("통과 2")
                 div = document.createElement("div");
                 div.id = divId;
                 div.className = 'main-board-set-pass';
@@ -601,7 +620,9 @@ function refresh_click() {
             const path = id.substring(1);
             //console.log(div);
             div.innerHTML += '<img onclick="main_board_tile_click(' + id + ')" id="' + id + '" src="image/' + path + '.svg" class="tile board-tile no-drag">';
-            mainBoard.insertBefore(div, set_tile);
+            mainBoard.appendChild(div);
+            console.log("통과 3")
+            // mainBoard.insertBefore(div, set_tile);
         }
     }
     for (let i of nowTurnTile) {

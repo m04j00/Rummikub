@@ -2,11 +2,20 @@ function robotTurn() {
     const doAddTile = addTileSet();
     console.log("로봇 턴", doAddTile);
     if(doAddTile){
+        nowTurnTile.length = 0;
         mainBoardBundleSave();
         turnEnd();
     }
     else{
-        robotTile.push(remainTile.pop());
+        let tile = remainTile.pop();
+        let tile2;
+        if(tile.number == '0') {
+            console.log("로봇이 먹을 타일이 조커임!!!")
+            tile2 = remainTile.pop();
+            remainTile.push(tile);
+            tile = tile2;
+        }
+        robotTile.push(tile);
         robotTile[robotTile.length - 1].location = "robot";
         remainingTile();
         turnEnd();

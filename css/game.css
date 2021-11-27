@@ -67,6 +67,9 @@ padding-bottom: 12px;
     width: 85vw;
     border: 1px solid black;
 }
+.tile-click-poiner{
+    cursor: pointer;
+}
 .main-board > div{
     padding: 3px;
     margin: 0;
@@ -103,11 +106,11 @@ padding-bottom: 12px;
     margin: 3px;
     border: 2px solid black;
 }
-.main-board > :last-child:hover{
+/* .main-board > :last-child:hover{
     margin-left: 5px;
     margin-top: 5px;
     border: none;
-}
+} */
 .main-board-set-pass{
     background-color: rgb(187, 245, 255);
 }
@@ -127,7 +130,8 @@ padding-bottom: 12px;
 }
 .main-before-btn{
     margin-top: 0;
-    height: 360px;
+    min-height: 360px;
+    height: auto;
 }
 .main-body-after-btn{
     display: none;
