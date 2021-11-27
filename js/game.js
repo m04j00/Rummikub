@@ -299,12 +299,12 @@ const mainBoardBundle = [];
 function mainBoardBundleSave() {
     mainBoardBundle.length = 0;
     for (let i = 0; i < tileBundle; i++) {
-        const bundle = document.getElementById('bundle' + i);
+        const bundle = document.getElementById(i);
         if (bundle == null) continue;
         const bundleList = bundle.childNodes;
         for (let j = 0; j < bundleList.length; j++) {
             mainBoardBundle.push({
-                "pId": 'bundle' + i,
+                "pId": i,
                 "path": bundleList[j]
             })
         }
@@ -327,7 +327,7 @@ function set_board_click(tile) {
     const setIsPass = isPass(tile);
     const mainBoard = document.querySelector('.main-board');
     let div = document.createElement("div");
-    let divId = 'bundle' + tileBundle;
+    let divId = tileBundle;
     div.id = divId;
     let divClick = "main_board_set_click(" + divId + ", clickTile)";
     div.setAttribute("onClick", divClick);
@@ -363,7 +363,8 @@ function mainBoardDivAddTile(i, div, divId, tile) {
     let id = tile[i].id;
     let path = tile[i].path;
     let location = tile[i].location;
-
+console.log("mainBoardDivAddTile - div : ", div);
+console.log("mainBoardDivAddTile - divId : ", divId);
     //플레이어 보드에 이미지 노드 삭제
 
     if(location == 'robot' || location == 'player') {
@@ -417,7 +418,7 @@ function mainBoardDivAddTile(i, div, divId, tile) {
 }
 
 function completeBundeFun(i, arr) {
-    bundle_div = document.getElementById('bundle' + i);
+    bundle_div = document.getElementById(i);
     if (bundle_div == null) return -1;
     if (!bundle_div.hasChildNodes()) {
         bundle_div.remove();
@@ -431,7 +432,7 @@ function completeBundeFun(i, arr) {
         const tileInfo = mainBoardTile.findIndex((e) => {
             return e.id == reId;
         });
-        let setName = 'bundle' + i;
+        let setName = i;
         mainBoardTile.push(mainBoardTile[tileInfo]);
         mainBoardTile[mainBoardTile.length - 1].set = setName;
         arr.push(mainBoardTile[tileInfo]);
@@ -744,9 +745,7 @@ function set_player_board_click() {
     }
 }
 
-function main_board_set_click(div, tile) {
-    console.log(div);
-    console.log(div.id);
+function main_board_set_click(divId, tile) {
     console.log("click")
     if (tile.length == 0 && robotAddTile.length == 0) {
         return;
@@ -756,8 +755,11 @@ function main_board_set_click(div, tile) {
     }
     
     //console.log("div", div.id);
+    const div = document.getElementById(divId);
+    console.log("div", div);
+    console.log("divId", divId);
     for (let i = 0; i < tile.length; i++) {
-        let nowDiv = mainBoardDivAddTile(i, div, div.id, tile);
+        let nowDiv = mainBoardDivAddTile(i, div, divId, tile);
         if (nowDiv == -1 && clickTile.length > 0) tile_click_shadow(tile[i].id);
     }
     for (let i = 0; i < tileBundle; i++) {

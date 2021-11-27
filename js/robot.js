@@ -153,6 +153,7 @@ function appendTile() {
     const tile = mainBoardTile.slice();
     console.log(tile);
     console.log(tile.length);
+    tile.sort((a, b) => a.set - b.set);
     console.log("정렬 타일 ", tile);
     //faker tile
     tile.push({
@@ -165,19 +166,20 @@ function appendTile() {
     })
     //console.log(tile);
     const setTile = [];
-    const bundle = 'bundle';
-    const lastbundleNum = (Number)(tile[tile.length - 2].set.substr(6)) + 1;
+    //const bundle = 'bundle';
+    const lastbundleNum = (Number)(tile[tile.length - 2].set) + 1;
     console.log(lastbundleNum);
     let cnt = 0;
     const isColor = [];
     for (let i = 0; i < tile.length; i++) {
-        console.log(bundle + cnt);
-        if (tile[i].set == bundle + cnt) {
+        console.log(cnt);
+        if (tile[i].set == cnt) {
             setTile.push(tile[i]);
             isColor.push(tile[i].color);
         } else {
             if (cnt < lastbundleNum) {
-                console.log("비교 시작")
+                console.log("비교 시작");
+                setTile.sort((a, b) => a.number - b.number);
                 // 777인 경우
                 if (setTile.length == 0) {
                     console.log("타일 수 부족");
@@ -213,10 +215,10 @@ function appendTile() {
                         });
                         console.log("hasTileColor", hasTileColor);
                         if (hasTileColor != -1) {
-                            const divId = 'bundle' + cnt;
-                            const div = document.getElementById(divId);
+                            const divId =  cnt;
+                            // const div = document.getElementById(divId);
                             robotAddTile.push(robotTile[hasTileColor]);
-                            main_board_set_click(div, robotAddTile);
+                            main_board_set_click(divId, robotAddTile);
                             console.log("붙일 타일 있어 함수 종료");
                             return true;
                         }
@@ -238,17 +240,17 @@ function appendTile() {
                     console.log("hasMinNum", hasMinNum);
                     if (hasMaxNum != -1) {
                         console.log("세트의 붙일 값 존재 - hasMaxNum");
-                        const divId = 'bundle' + cnt;
-                        const div = document.getElementById(divId);
+                        const divId = cnt;
+                        // const div = document.getElementById(divId);
                         robotAddTile.push(robotTile[hasMaxNum]);
-                        main_board_set_click(div, robotAddTile);
+                        main_board_set_click(divId, robotAddTile);
                         return true;
                     } else if (hasMinNum != -1) {
                         console.log("세트의 붙일 값 존재 - hasMinNum");
-                        const divId = 'bundle' + cnt;
-                        const div = document.getElementById(divId);
+                        const divId = cnt;
+                        // const div = document.getElementById(divId);
                         robotAddTile.push(robotTile[hasMinNum]);
-                        main_board_set_click(div, robotAddTile);
+                        main_board_set_click(divId, robotAddTile);
                         return true;
                     }
                 }
