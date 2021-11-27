@@ -29,7 +29,7 @@ function startCountDown(duration, element) {
 }
 
 function initTime() {
-    let min = 5;
+    let min = 1;
     let sec = 0;
     let duration = min * 60 + sec;
 
