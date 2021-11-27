@@ -325,46 +325,27 @@ function set_board_click(tile) {
     }
     console.log(tile);
     const setIsPass = isPass(tile);
-
+    const mainBoard = document.querySelector('.main-board');
+    let div = document.createElement("div");
+    let divId = tileBundle;
+    div.id = divId;
+    let divClick = "main_board_set_click(" + divId + ", clickTile)";
+    div.setAttribute("onClick", divClick);
+    tileBundle++;
     // console.log(div);
 
     if (setIsPass) {
-        const div = createDiv();
         div.className = 'main-board-set-pass';
         div.className += ' add-tile';
-        for (let i = 0; i < tile.length; i++) {
-            mainBoardDivAddTile(i, div, div.id, tile);
-            mainBoard.appendChild(div);
-        }
     } else {
-        tile_a_to_z(tile);
-        let k = 0;
-        const div = createDiv();
         div.className = 'main-board-set-fail';
         div.className += ' add-tile';
-        mainBoardDivAddTile(k, div, div.id, tile);
-        mainBoard.appendChild(div);
-        k++;
-
-        
-        const tile777 = is777(tile);
-        const tile789 = is789(tile);
-        if(tile777 || tile789){
-            for(let j = k; j < tile.length; j++){
-                mainBoardDivAddTile(j, div, div.id, tile);
-            }
-        }
-        else{
-            for (let i = k; i < tile.length; i++) {
-                const div = createDiv();
-                div.className = 'main-board-set-fail';
-                div.className += ' add-tile';
-                mainBoardDivAddTile(i, div, div.id, tile);
-                mainBoard.appendChild(div);
-            }
-        }
     }
-
+    const set_tile = document.querySelector('.set-main-board');
+    for (let i = 0; i < tile.length; i++) {
+        mainBoardDivAddTile(i, div, divId, tile);
+        mainBoard.insertBefore(div, set_tile);
+    }
     console.log(tile[0]);
     if(loc == 'player'){
         player1_tile.textContent = `${playerTile.length}`;
@@ -376,22 +357,14 @@ function set_board_click(tile) {
     }
     mainBoard.classList.remove('tile-click-poiner');
 }
-function createDiv(){
-    let div = document.createElement("div");
-    let divId = tileBundle;
-    div.id = divId;
-    let divClick = "main_board_set_click(" + divId + ", clickTile)";
-    div.setAttribute("onClick", divClick);
-    tileBundle++;
-    return div;
-}
+
 function mainBoardDivAddTile(i, div, divId, tile) {
     console.log(tile);
     let id = tile[i].id;
     let path = tile[i].path;
     let location = tile[i].location;
-    console.log("mainBoardDivAddTile - div : ", div);
-    console.log("mainBoardDivAddTile - divId : ", divId);
+console.log("mainBoardDivAddTile - div : ", div);
+console.log("mainBoardDivAddTile - divId : ", divId);
     //플레이어 보드에 이미지 노드 삭제
 
     if(location == 'robot' || location == 'player') {
@@ -481,38 +454,8 @@ function completeBundeFun(i, arr) {
         bundle_div.className = 'main-board-set-pass';
         bundle_div.className += ' add-tile';
     } else {
-        let k = 0;
-        bundle_div.innerHTML = '';
-        const id = arr[k++].id;
-        const path = id.substring(1);
-        //console.log(arr);
-        bundle_div.innerHTML += '<img onclick="main_board_tile_click(' + id + ')" id="' + id + '" src="image/' + path + '.svg" class="main-board-tile board-tile no-drag">';
-
         bundle_div.className = 'main-board-set-fail';
         bundle_div.className += ' add-tile';
-        const tile777 = is777(arr);
-        const tile789 = is789(arr);
-        if(tile777 || tile789){
-            for(let j = k; j < count; j++){
-                const id = arr[j].id;
-                const path = id.substring(1);
-                bundle_div.innerHTML += '<img onclick="main_board_tile_click(' + id + ')" id="' + id + '" src="image/' + path + '.svg" class="main-board-tile board-tile no-drag">';
-            }
-        }
-        else{
-            for(let j = k; j < count; j++){
-                const div = createDiv();
-                console.log("div : ", div);
-                div.className = 'main-board-set-fail';
-                div.className += ' add-tile';
-                const id = arr[j].id;
-                const path = id.substring(1);
-                //console.log(arr);
-                div.innerHTML = '<img onclick="main_board_tile_click(' + id + ')" id="' + id + '" src="image/' + path + '.svg" class="main-board-tile board-tile no-drag">';
-                mainBoard.appendChild(div);
-            }
-        }
-
     }
 }
 let bundle_div;

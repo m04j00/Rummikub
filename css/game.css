@@ -57,6 +57,17 @@ padding-bottom: 12px;
     -webkit-user-drag: none;
     padding: 0;
 }
+.main-board-tile{
+    margin-top: 4;
+    /* margin-right:; */
+    margin-right: 1px;
+    height: 11vh;
+    cursor: pointer;
+    -webkit-user-drag: none;
+    padding: 0;
+    /* border: 1px solid rgba(0, 0, 0, 0.233); */
+    border-radius: 10px;
+}
 .main-board{
     padding: 10px;
     margin: 0;
@@ -104,7 +115,9 @@ padding-bottom: 12px;
 .main-board > :nth-child(n):hover{
     cursor: pointer;
     margin: 3px;
-    border: 2px solid black;
+    border: 2px solid rgba(0, 0, 0, 0);
+    background-color: rgb(255, 243, 238);
+    /* box-shadow: 0px 0px 5px 5px rgb(170, 170, 170); */
 }
 /* .main-board > :last-child:hover{
     margin-left: 5px;
@@ -112,10 +125,13 @@ padding-bottom: 12px;
     border: none;
 } */
 .main-board-set-pass{
-    background-color: rgb(187, 245, 255);
+    /* background-color: rgb(187, 245, 255); */
 }
 .main-board-set-fail{
-    background-color: rgba(230, 29, 29, 0.911);
+    /* padding: 3px; */
+    /* border: 1px solid black; */
+    /* box-shadow: 0px 0px 3px 3px rgb(255, 107, 107); */
+    /* background-color: rgb(255, 107, 107); */
 }
 /* 버튼 */
 .board-body-btn{
@@ -147,4 +163,7 @@ padding-bottom: 12px;
 }
 .pointer-event{
     pointer-events: none;
+}
+.tile-add{
+    border: 1px solid black;
 }

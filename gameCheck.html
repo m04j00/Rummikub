@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" type="text/css" href="css/game.css">
     <link rel="stylesheet" type="text/css" href="css/check.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RummiKub</title>
@@ -36,9 +35,9 @@
         </div>
     </div>
     <!-- main board -->
-    <div class="board-body">
-        <div class="main-board">
-            <div class="set-main-board" onclick="set_board_click(clickTile)"><img src="image/set.svg" class="tile-set" id="tile-set1"></div>
+    <div class="board-body" >
+        <div class="main-board" onclick="set_board_click(clickTile)" id="tile-set">
+            <!-- <div class="set-main-board" onclick="set_board_click(clickTile)"><img src="image/set.svg" class="tile-set" id="tile-set1"></div> -->
         </div>
         <div class="board-body-btn main-body-before-btn">
             <button class="btn main-before-btn" onclick="skip_turn_click()">skip turn</button>
@@ -61,7 +60,7 @@
 
 
     <script type="text/javascript" src="js/robot.js"></script>
-    <script type="text/javascript" src="js/game.js"></script>
+    <script type="text/javascript" src="js/chckGmae.js"></script>
     <script type="text/javascript" src="js/check.js"></script>
 </body>
 
