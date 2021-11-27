@@ -27,7 +27,7 @@ function startCountDown(duration, element) {
         } // 타이머 종료
     }, 1000);
 }
-
+    
 function initTime() {
     let min = 1;
     let sec = 0;

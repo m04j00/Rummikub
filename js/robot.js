@@ -146,7 +146,7 @@ function addTileSet777() {
         }
     }
 }
-
+    
 //메인 보드 타일 탐색 후 붙일 타일 있는지 확인
 function appendTile() {
     if (mainBoardTile.length == 0) return;
