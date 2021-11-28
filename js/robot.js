@@ -21,6 +21,7 @@ function robotTurn() {
         turnEnd();
     }
 }
+let robotENR = false;
 //추가 가능한 타일 묶음이 있는지 
 function addTileSet() {
     const is789 = addTileSet789();
@@ -32,7 +33,7 @@ function addTileSet() {
         if (is777) {
             mainBoardaddTile();
             return true;
-        } else {
+        } else if(robotENR){
             const doApppend = appendTile();
             if(doApppend) return true;
             else return false;
@@ -95,8 +96,26 @@ function addTileSet789() {
                 color++;
                 i--;
                 continue;
+            }else if(!robotENR && robotAddTile.length >= 3){
+                let sum = 0;
+                for(let i = 0; i < robotAddTile.length; i++){
+                    sum += (Number)(robotAddTile[i].number);
+                }
+                console.log("sum : ", sum);
+                if(sum >= 30) {
+                    robotENR = true;
+                    break;
+                }
+                else {
+                    console.log("robot : 타일의 합이 30 미만이라 등록할 수 없습니다");
+                    colorTile.length = 0;
+                    robotAddTile.length = 0;
+                    color++;
+                    i--;
+                    continue;
+                }
             } else if (robotAddTile.length >= 3) break;
-
+            
             colorTile.length = 0;
             robotAddTile.length = 0;
             color++;
@@ -133,7 +152,24 @@ function addTileSet777() {
                 robotAddTile.length = 0;
                 numTile.length = 0;
                 number++;
-            } else {
+            } else if(!robotENR){
+                let sum = 0;
+                for(let i = 0; i < robotAddTile.length; i++){
+                    sum += (Number)(robotAddTile[i].number);
+                }
+                console.log("sum : ", sum);
+                if(sum >= 30) {
+                    robotENR = true;
+                    return true;
+                }
+                else {
+                    robotAddTile.length = 0;
+                    numTile.length = 0;
+                    number++;
+                    console.log("robot : 타일의 합이 30 미만이라 등록할 수 없습니다");
+                }
+            }
+            else {
                 console.log(robotAddTile);
                 return true;
             }

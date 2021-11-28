@@ -29,8 +29,8 @@ function startCountDown(duration, element) {
 }
     
 function initTime() {
-    let min = 5;
-    let sec = 0;
+    let min = 0;
+    let sec = 10;
     let duration = min * 60 + sec;
 
     element = document.querySelector('.time-text');
@@ -211,11 +211,12 @@ function timeOut() {
         return;
     }
     // 조건이 일치하지 않는 타일 묶음이 있을 경우 판 초기화 후 타일 한 장 추가
-    if (document.querySelector('.main-board-set-fail')) {
+    if (document.querySelector('.main-board-set-fail') || playerENR == false) {
         refresh_click();
         skip_turn_click();
         return;
     }
+    
     pass_click();
 }
 
@@ -317,16 +318,14 @@ const player2_tile = document.querySelector('.player2-tile');
 function set_board_click(tile) {
     let loc;
     if(clickTile.length == 0 && robotAddTile.length == 0) return;
-    if(clickTile.length > 0) {
+    if(robotAddTile.length > 0) {
+        loc = 'robot';
+    }else{
         hasChildMainBoard();
         loc = 'player';
-    }else{
-        loc = 'robot';
+        
     }
-    console.log(tile);
     const setIsPass = isPass(tile);
-
-    // console.log(div);
 
     if (setIsPass) {
         const div = createDiv();
@@ -366,7 +365,9 @@ function set_board_click(tile) {
     }
 
     console.log(tile[0]);
+    console.log("loc : ", loc );
     if(loc == 'player'){
+        console.log("clickTile delete");
         player1_tile.textContent = `${playerTile.length}`;
         clickTile.length = 0;
     }
@@ -376,6 +377,7 @@ function set_board_click(tile) {
     }
     mainBoard.classList.remove('tile-click-poiner');
 }
+
 function createDiv(){
     let div = document.createElement("div");
     let divId = tileBundle;
@@ -703,7 +705,22 @@ function refresh_click() {
     nowTurnTile.length = 0;
 }
 
+let playerENR = false;
+
 function pass_click() {
+    if(playerENR == false){
+        let sum = 0;
+        for(let i = 0; i < nowTurnTile.length; i++){
+            sum += (Number)(nowTurnTile[i].number);
+        }
+        console.log("sum : ", sum);
+        if(sum >= 30) playerENR = true;
+        else {
+            alert("타일의 합이 30 미만이라 등록할 수 없습니다.");
+            return;
+        }
+    }
+    
     if (document.querySelector('.main-board-set-fail')) {
         alert("조건이 일치하지 않습니다.");
         return;
