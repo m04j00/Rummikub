@@ -6,19 +6,27 @@
     padding: 0;
     color: #000;
 }
-.no-drag {-ms-user-select: none; -moz-user-select: -moz-none; -webkit-user-select: none; -khtml-user-select: none; user-select:none;}
 
-.nav{
+.no-drag {
+    -ms-user-select: none;
+    -moz-user-select: -moz-none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
+}
+
+.nav {
     margin-bottom: 80px;
     padding: 20px;
 }
-.board-body{
+
+.board-body {
     margin: 0;
     display: flex;
 }
 
 /* player */
-.players{
+.players {
     margin-right: 20px;
     font-size: 20px;
     display: table;
@@ -28,28 +36,44 @@
     float: left;
     border: 1px solid black;
 }
-.player{
-padding-top: 12px;
-padding-bottom: 12px;
+
+.player {
+    padding-top: 12px;
+    padding-bottom: 12px;
     border-bottom: 1px solid black;
 }
-.now-player{
+
+.now-player {
     font-weight: bold;
 }
+
 /* time / remain tile */
-.info{
+.info {
     text-align: center;
     float: left;
     font-size: 20px;
     padding-top: 10px;
 }
-.info > div{
+
+.info>div {
     padding-bottom: 5px;
 }
-/* turn */
-.whose-turn{
+
+#comment {
+    position: absolute;
+    align-self: center;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: 35px;
+    font-size: 20px;
     text-align: center;
 }
+
+/* turn */
+.whose-turn {
+    text-align: center;
+}
+
 .tile {
     margin: 4px;
     height: 80px;
@@ -57,7 +81,8 @@ padding-bottom: 12px;
     -webkit-user-drag: none;
     padding: 0;
 }
-.main-board-tile{
+
+.main-board-tile {
     margin-top: 4;
     /* margin-right:; */
     margin-right: 1px;
@@ -68,7 +93,8 @@ padding-bottom: 12px;
     /* border: 1px solid rgba(0, 0, 0, 0.233); */
     border-radius: 10px;
 }
-.main-board{
+
+.main-board {
     padding: 10px;
     margin: 0;
     margin-left: 20px;
@@ -78,101 +104,125 @@ padding-bottom: 12px;
     width: 85vw;
     border: 1px solid black;
 }
-.tile-click-poiner{
+
+.tile-click-poiner {
     cursor: pointer;
 }
-.main-board > div{
+
+.main-board>div {
     padding: 3px;
     margin: 0;
     margin: 5px;
-    float:left;
+    float: left;
 
     border-radius: 10px;
 }
-.player-board, .robot-board{
+
+.player-board{
     padding: 10px;
     margin: 0;
     margin-left: 20px;
     margin-bottom: 20px;
     height: auto;
-    width: 84.78vw;
+    min-height: 200px;
+    width: 84.9vw;
     border: 1px solid black;
 }
-.player-board > div{
-    float:left;
+.robot-board {
+    padding: 10px;
+    margin: 0;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    height: auto;
+    width: 84.9vw;
+    border: 1px solid black;
 }
-.robot-board > div >img{
-    float:left;
+.player-board>div {
+    float: left;
+}
+
+.robot-board>div>img {
+    float: left;
     cursor: default;
 }
-.tile-click{
+
+.tile-click {
     border-radius: 10px;
     /* background-color: rgb(255, 181, 43); */
     box-shadow: -1px 0px 5px 5px rgb(255, 188, 43);
 }
-.tile-set{
+
+.tile-set {
     margin-left: 5px;
     margin-top: 5px;
     height: 80px;
     cursor: pointer;
-    
+
 }
-.main-board > :nth-child(n):hover{
+
+.main-board> :nth-child(n):hover {
     cursor: pointer;
     margin: 3px;
     border: 2px solid rgba(0, 0, 0, 0);
     background-color: rgb(255, 243, 238);
     /* box-shadow: 0px 0px 5px 5px rgb(170, 170, 170); */
 }
+
 /* .main-board > :last-child:hover{
     margin-left: 5px;
     margin-top: 5px;
     border: none;
 } */
-.main-board-set-pass{
+.main-board-set-pass {
     /* background-color: rgb(187, 245, 255); */
 }
-.main-board-set-fail{
+
+.main-board-set-fail {
     /* padding: 3px; */
     /* border: 1px solid black; */
     /* box-shadow: 0px 0px 3px 3px rgb(255, 107, 107); */
     /* background-color: rgb(255, 107, 107); */
 }
+
 /* 버튼 */
-.board-body-btn{
+.board-body-btn {
     margin: 0;
 }
-.btn{
+
+.btn {
     margin: 0;
+    margin-top: 5px;
     margin-left: 20px;
     margin-bottom: 10px;
     width: 100px;
 }
-.main-before-btn{
+
+.main-before-btn {
     margin-top: 0;
     min-height: 360px;
     height: auto;
 }
-.main-body-after-btn{
+
+.main-body-after-btn {
     display: none;
 }
-.main-after-btn{
+
+.main-after-btn {
     height: 160px;
 }
-.player-btn{
+
+.player-btn {
     height: 100px;
 }
-.btn:hover{
+
+.btn:hover {
     cursor: pointer;
 }
-.pointer-event{
+
+.pointer-event {
     pointer-events: none;
 }
-.tile-add{
+
+.tile-add {
     border: 1px solid black;
-}
-.comment{
-    margin-top: 25px;
-    font-size: 20px;
-    text-align: center;
 }

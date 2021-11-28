@@ -8,7 +8,7 @@ function isUnits(num) {
 let playerTurn = true;
 let countInterval;
 
-function startCountDown(duration, element) {
+function CountDown(duration, element) {
     let setTime = duration;
     let min = 0,
         sec = 0;
@@ -16,18 +16,38 @@ function startCountDown(duration, element) {
     countInterval = setInterval(function () {
         min = parseInt(setTime / 60);
         sec = parseInt(setTime % 60);
-
         element.textContent = `제한 시간 ${isUnits(min)}:${isUnits(sec)}`;
-
         setTime--;
         if (setTime < 0) {
+
             console.log("현재 턴 : ", playerTurn);
             if (playerTurn) timeOut();
             else turnEnd();
         } // 타이머 종료
     }, 1000);
 }
-    
+let StartCountInterval;
+function startCountDown(duration, element) {
+    let setTime = duration;
+    let min = 0,
+        sec = 0;
+
+    StartCountInterval = setInterval(function () {
+        min = parseInt(setTime / 60);
+        sec = parseInt(setTime % 60);
+
+        element.textContent = `${sec} 후 게임이 시작됩니다.`;
+
+        setTime--;
+        if (setTime < 0) {
+            initTime();
+            document.querySelector('.player1').classList.add('now-player');
+            comment_player_turn();
+            clearInterval(StartCountInterval);
+        } // 타이머 종료
+    }, 1000);
+}
+                    
 function initTime() {
     let min = 0;
     let sec = 10;
@@ -36,12 +56,19 @@ function initTime() {
     element = document.querySelector('.time-text');
     element.textContent = `제한 시간 ${isUnits(min)}:${isUnits(sec)}`;
 
+    CountDown(--duration, element);
+}
+function startTime() {
+    let min = 0;
+    let sec = 3;
+    let duration = min * 60 + sec;
+    element = document.getElementById('comment');
+    element.textContent = `${sec} 후 게임이 시작됩니다.`;
+
     startCountDown(--duration, element);
 }
-
 window.onload = function () {
-    initTime();
-    document.querySelector('.player1').classList.add('now-player');
+    startTime();
 };
 
 // 타일 선언 및 셔플
@@ -186,8 +213,12 @@ function remainingTile() {
 // 턴이 바뀔 때마다 paleyrBoard pointer event none toggle
 let nowTurn = playerTile;
 function isPlayerTime() {
-    if (playerTurn) nowTurn = playerTile;
+    if (playerTurn) {
+        comment_player_turn();
+        nowTurn = playerTile;
+    }
     else {
+        comment_robot_turn();
         nowTurn = robotTile;
         setTimeout(robotTurn, 3000);
     }
@@ -205,6 +236,9 @@ function whoseWin() {
 
 //time out
 function timeOut() {
+    
+    comment_time_out();
+    setTimeout(comment_robot_turn, 1000);
     // 추가된 타일이 없을 경우 return
     if (nowTurnTile.length == 0) {
         skip_turn_click();
@@ -716,13 +750,15 @@ function pass_click() {
         console.log("sum : ", sum);
         if(sum >= 30) playerENR = true;
         else {
-            alert("타일의 합이 30 미만이라 등록할 수 없습니다.");
+            comment_false_ENR();
+            setTimeout(comment_player_turn, 2000);
             return;
         }
     }
     
     if (document.querySelector('.main-board-set-fail')) {
-        alert("조건이 일치하지 않습니다.");
+        comment_false_add();
+        setTimeout(comment_player_turn, 2000);
         return;
     }
     if (document.querySelector('.main-board-set-pass')) {
@@ -731,7 +767,8 @@ function pass_click() {
         tile.classList.add('old-tile');
 
     } else {
-        alert("조건이 일치하지 않습니다.");
+        comment_false_add();
+        setTimeout(comment_player_turn, 2000);
         return;
     }
     beforeBtn.style.display = 'block';
