@@ -165,7 +165,7 @@ function show_player_tile() {
 }
 
 show_player_tile();
-
+show_robot_tile();
 //턴 변경
 function turnEnd() {
     console.log("turn End");

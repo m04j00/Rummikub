@@ -52,7 +52,7 @@ padding-bottom: 12px;
 }
 .tile {
     margin: 4px;
-    height: 11vh;
+    height: 80px;
     cursor: pointer;
     -webkit-user-drag: none;
     padding: 0;
@@ -61,7 +61,7 @@ padding-bottom: 12px;
     margin-top: 4;
     /* margin-right:; */
     margin-right: 1px;
-    height: 11vh;
+    height: 80px;
     cursor: pointer;
     -webkit-user-drag: none;
     padding: 0;
@@ -89,16 +89,21 @@ padding-bottom: 12px;
 
     border-radius: 10px;
 }
-.player-board{
+.player-board, .robot-board{
     padding: 10px;
     margin: 0;
     margin-left: 20px;
+    margin-bottom: 20px;
     height: auto;
-    width: 85vw;
+    width: 84.78vw;
     border: 1px solid black;
 }
 .player-board > div{
     float:left;
+}
+.robot-board > div >img{
+    float:left;
+    cursor: default;
 }
 .tile-click{
     border-radius: 10px;
@@ -108,7 +113,7 @@ padding-bottom: 12px;
 .tile-set{
     margin-left: 5px;
     margin-top: 5px;
-    height: 11vh;
+    height: 80px;
     cursor: pointer;
     
 }
@@ -140,7 +145,6 @@ padding-bottom: 12px;
 .btn{
     margin: 0;
     margin-left: 20px;
-    margin-top: 10px;
     margin-bottom: 10px;
     width: 100px;
 }
@@ -166,4 +170,9 @@ padding-bottom: 12px;
 }
 .tile-add{
     border: 1px solid black;
+}
+.comment{
+    margin-top: 25px;
+    font-size: 20px;
+    text-align: center;
 }

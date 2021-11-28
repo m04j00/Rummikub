@@ -1,9 +1,11 @@
 function robotTurn() {
+    
     const doAddTile = addTileSet();
     console.log("로봇 턴", doAddTile);
     if(doAddTile){
         nowTurnTile.length = 0;
         mainBoardBundleSave();
+        show_robot_tile();
         turnEnd();
     }
     else{
@@ -18,6 +20,7 @@ function robotTurn() {
         robotTile.push(tile);
         robotTile[robotTile.length - 1].location = "robot";
         remainingTile();
+        show_robot_tile();
         turnEnd();
     }
 }
@@ -304,4 +307,12 @@ function appendTile() {
 //메인 보드에 타일 붙이기
 function mainBoardaddTile() {
     set_board_click(robotAddTile);
+}
+function show_robot_tile() {
+    document.querySelector('.robot-board').innerHTML = '';
+    for (let i = 0; i < robotTile.length; i++) {
+        let div = document.createElement("div");
+        div.innerHTML += '<img src="image/back.svg" class="tile player-tile no-drag">';
+        document.querySelector('.robot-board').appendChild(div);
+    }
 }
