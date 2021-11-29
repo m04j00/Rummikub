@@ -50,3 +50,7 @@
     font-size: 20px;
     height: 100px;
 }
+.tile-refresh:hover{
+    font-weight: normal;
+    color:red;
+}
