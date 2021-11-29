@@ -220,7 +220,7 @@ function appendTile() {
                 console.log("비교 시작");
                 setTile.sort((a, b) => a.number - b.number);
                 // 777인 경우
-                if (setTile.length == 0) {
+                if (setTile.length < 3) {
                     console.log("타일 수 부족");
                     setTile.length = 0;
                     isColor.length = 0;

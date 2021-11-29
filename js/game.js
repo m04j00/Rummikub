@@ -36,7 +36,7 @@ function startCountDown(duration, element) {
         min = parseInt(setTime / 60);
         sec = parseInt(setTime % 60);
 
-        element.textContent = `${sec} 후 게임이 시작됩니다.`;
+        element.textContent = `${sec}초 후 게임이 시작됩니다.`;
 
         setTime--;
         if (setTime < 0) {
@@ -49,8 +49,8 @@ function startCountDown(duration, element) {
 }
                     
 function initTime() {
-    let min = 0;
-    let sec = 10;
+    let min = 1;
+    let sec = 0;
     let duration = min * 60 + sec;
 
     element = document.querySelector('.time-text');
@@ -63,7 +63,7 @@ function startTime() {
     let sec = 3;
     let duration = min * 60 + sec;
     element = document.getElementById('comment');
-    element.textContent = `${sec} 후 게임이 시작됩니다.`;
+    element.textContent = `${sec}초 후 게임이 시작됩니다.`;
 
     startCountDown(--duration, element);
 }
@@ -171,9 +171,9 @@ function ahk(){
     }
 }
 splitTile();
-
+splitTile();
+splitTile();
 ahk();
-
 
 const playerBoard = document.querySelector('.player-board');
 const mainBoard = document.querySelector('.main-board');
@@ -226,12 +226,6 @@ function isPlayerTime() {
     beforeBtn.classList.toggle('pointer-event'); // skipTurn 버튼 막기
     mainBoard.classList.toggle('pointer-event')
     nowTurnPlayer();
-}
-
-// 게임 종료
-function whoseWin() {
-    if (playerTile.length == 0 || robotTile.length == 0) return 1;
-    else return 0;
 }
 
 //time out
@@ -359,6 +353,7 @@ function set_board_click(tile) {
         loc = 'player';
         
     }
+    if(tile.length == 0) return;
     const setIsPass = isPass(tile);
 
     if (setIsPass) {
