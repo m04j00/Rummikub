@@ -19,7 +19,6 @@ function CountDown(duration, element) {
         element.textContent = `제한 시간 ${isUnits(min)}:${isUnits(sec)}`;
         setTime--;
         if (setTime < 0) {
-
             console.log("현재 턴 : ", playerTurn);
             if (playerTurn) timeOut();
             else turnEnd();
@@ -193,13 +192,27 @@ function show_player_tile() {
 
 show_player_tile();
 show_robot_tile();
+let backUpTile = [];
+let playerTileLen = playerTile.length;
 //턴 변경
 function turnEnd() {
+    backUpTile = [...mainBoardTile];
     console.log("turn End");
+    tileEffectiveness();
     playerTurn = !playerTurn; // 플레이어 변경
-    isPlayerTime(); // class toggle
-    clearInterval(countInterval); // 타이머 종료
-    if (whoseWin() != 1) initTime();
+    isPlayerTime();
+    const notWin = whoseWin();
+    console.log(notWin);
+    if (notWin == 0) {
+        
+        clearInterval(countInterval);
+        initTime();
+        return;
+    }
+    else if(notWin == 1) popup('player');
+    else if(notWin == 2) popup('robot');
+    
+    clearInterval(countInterval);
 }
 
 // 남은 타일 수 변경
@@ -216,6 +229,7 @@ function isPlayerTime() {
     if (playerTurn) {
         comment_player_turn();
         nowTurn = playerTile;
+        playerTileLen = playerTile.length;
     }
     else {
         comment_robot_turn();
@@ -322,7 +336,7 @@ function a_to_z_click() {
 }
 
 let tileBundle = 0;
-const mainBoardTile = [];
+let mainBoardTile = [];
 const mainBoardBundle = [];
 
 function mainBoardBundleSave() {
@@ -685,6 +699,7 @@ function skip_turn_click() {
 function refresh_click() {
     clickTileReset();
     console.log(mainBoardBundle.length);
+    let k = 0;
     if (mainBoardBundle.length != 0) {
         // mainBoard.innerHTML = '<div class="set-main-board" onclick="set_board_click(clickTile)"><img src="image/set.svg" class="tile-set" id="tile-set1"></div>';
         mainBoard.innerHTML = '';
@@ -698,6 +713,7 @@ function refresh_click() {
                 console.log("통과 2")
                 div = document.createElement("div");
                 div.id = divId;
+
                 div.className = 'main-board-set-pass';
                 let divClick = "main_board_set_click(" + divId + ", clickTile)";
                 div.setAttribute("onClick", divClick);
@@ -705,6 +721,7 @@ function refresh_click() {
             } else {
                 div = document.getElementById(divId);
             }
+            mainBoardTile[k++].set = divId;
             const id = mainBoardBundle[i].path.id;
             const path = id.substring(1);
             //console.log(div);
@@ -737,6 +754,11 @@ function refresh_click() {
 let playerENR = false;
 
 function pass_click() {
+    if(playerTileLen == playerTile.length) {
+        comment_not_add();
+        setTimeout(comment_player_turn, 2000);
+        return;
+    }
     if(playerENR == false){
         let sum = 0;
         for(let i = 0; i < nowTurnTile.length; i++){
@@ -889,4 +911,21 @@ function main_board_set_click(divId, tile) {
 //정렬 / reset 등의 버튼 눌렀을 때 clickTile 배열 초기화
 function clickTileReset(){
     clickTile.length = 0;
+}
+
+function tileEffectiveness(){
+    console.log("메인보드 타일 유효성 검사!!");
+    for(let i = 0; i < mainBoardTile.length; i++){
+        if(mainBoardTile[i] == undefined){
+            console.log("undifined 발견 !! 및 삭제");
+            mainBoardTile.splice(i, 1);
+        }
+    }
+}
+
+function main_board_refresh_click(){
+    console.log("mainBoard refresh");
+    mainBoardTile = [...backUpTile];
+    console.log(mainBoardTile);
+    refresh_click();
 }
