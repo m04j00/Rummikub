@@ -5,8 +5,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" type="text/css" href="css/game.css">
+    <link rel="stylesheet" type="text/css" href="css/button.css">
     <link rel="stylesheet" type="text/css" href="css/comment.css">
+    <link rel="stylesheet" type="text/css" href="css/popup.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
     <title>RummiKub</title>
 </head>
 
@@ -37,6 +42,7 @@
         <div class="robot-board">
         </div>
         <div class="board-body-btn">
+            <button class="btn tile-refresh" onclick="main_board_refresh_click()">main board<br>refresh</button>
         </div>
     </div>
     
@@ -46,10 +52,10 @@
             <!-- <div class="set-main-board" onclick="set_board_click(clickTile)"><img src="image/set.svg" class="tile-set" id="tile-set1"></div> -->
         </div>
         <div class="board-body-btn main-body-before-btn">
-            <button class="btn main-before-btn" onclick="skip_turn_click()">skip turn</button>
+            <button class="btn main-before-btn" onclick="skip_turn_click()">skip<br>turn</button>
         </div>
         <div class="board-body-btn main-body-after-btn">
-            <button class="btn main-after-btn" onclick="refresh_click()">turn refresh</button><br>
+            <button class="btn main-after-btn" onclick="refresh_click()">reset</button><br>
             <button class="btn main-after-btn" onclick="pass_click()">pass</button>
         </div>
     </div>
@@ -59,13 +65,34 @@
             <div class="set-player-board"><img src="image/set.svg" class="tile-set" id="tile-set2"></div>
         </div>
         <div class="board-body-btn">
-            <button class="btn player-btn r-to-b" onclick="r_to_b_click()">777</button><br>
-            <button class="btn player-btn a-to-z" onclick="a_to_z_click()">789</button>
+            <button class="btn player-btn r-to-b" onclick="r_to_b_click()"></button><br>
+            <button class="btn player-btn a-to-z" onclick="a_to_z_click()"></button>
         </div>
     </div>
     <script type="text/javascript" src="js/robot.js"></script>
     <script type="text/javascript" src="js/game.js"></script>
 
+    <!-- finish popup -->
+    <div class="modal">
+        <div class="popup">
+            <h1 class="popup-title">승리</h1>
+            <div class="popup-table">
+                <table>
+                    <tr>
+                        <td class="td-player">Me</td>
+                        <td class="td-score" id="me_score">0</td>
+                        <td id="me_win">승</td>
+                    </tr>
+                    <tr>
+                        <td class="td-player">Robot</td>
+                        <td class="td-score" id="robot_score">-14</td>
+                        <td id="robot_win">패</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="js/finish.js"></script>
 </body>
 
 </html>
