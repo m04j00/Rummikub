@@ -1,0 +1,62 @@
+.modal {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden; 
+    transform: scale(1.1);
+    transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+}
+.popup { 
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    background-color: white; 
+    padding: 1rem 1.5rem; 
+    width: 1000px; 
+    height: 500px; 
+    border-radius: 0.5rem; 
+
+} 
+.show-modal { 
+    opacity: 1; 
+    visibility: visible; 
+    transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s; 
+} 
+.popup-title{
+    margin-top: 50px;
+    text-align: center;
+}
+.popup-table{
+    margin-top: 50px;
+    
+}
+table{
+    font-size: 20px;
+    /* border-top: 1px solid black; */
+    border-collapse: collapse;
+}
+td{
+    width: 70px;
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.td-player{
+    padding-right: 50px;
+    width: 100px;
+    border-right: 1px solid black;
+}
+.td-score{
+    padding-left: 30px;
+}
+.paleyr-win{
+    color: blue;
+}
+.player-fail{
+    color: red;
+}

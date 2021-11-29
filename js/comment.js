@@ -22,3 +22,11 @@ function comment_time_out(){
     div.textContent = `주어진 시간을 모두 소비하였습니다.`;
     div.className = 'error';
 }
+function comment_not_add(){
+    div.textContent = `메인 보드에 추가한 타일이 없습니다.`;
+    div.className = 'error';
+}
+function comment_game_end(){
+    div.textContent = `게임이 종료되었습니다.`;
+    div.className = 'black';
+}

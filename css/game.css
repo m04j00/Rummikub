@@ -5,6 +5,7 @@
     margin: 0 auto;
     padding: 0;
     color: #000;
+    font-family: 'Nanum Gothic', sans-serif;
 }
 
 .no-drag {
@@ -34,13 +35,14 @@
     width: 80px;
     height: 80px;
     float: left;
-    border: 1px solid black;
+    border: 1px solid rgb(204, 204, 204);
+    
 }
 
 .player {
     padding-top: 12px;
     padding-bottom: 12px;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid rgb(204, 204, 204);
 }
 
 .now-player {
@@ -98,11 +100,12 @@
     padding: 10px;
     margin: 0;
     margin-left: 20px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     height: auto;
     min-height: 340px;
     width: 85vw;
-    border: 1px solid black;
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 10px;
 }
 
 .tile-click-poiner {
@@ -126,7 +129,9 @@
     height: auto;
     min-height: 200px;
     width: 84.9vw;
-    border: 1px solid black;
+    border: 1px solid rgb(204, 204, 204);
+    /* box-shadow: 3px 3px 13px 0px rgb(212 212 212 / 69%); */
+    border-radius: 10px;
 }
 .robot-board {
     padding: 10px;
@@ -135,7 +140,9 @@
     margin-bottom: 20px;
     height: auto;
     width: 84.9vw;
-    border: 1px solid black;
+    border: 1px solid rgb(204, 204, 204);
+    /* box-shadow: 3px 3px 13px 0px rgb(212 212 212 / 69%); */
+    border-radius: 10px;
 }
 .player-board>div {
     float: left;
@@ -183,42 +190,6 @@
     /* box-shadow: 0px 0px 3px 3px rgb(255, 107, 107); */
     /* background-color: rgb(255, 107, 107); */
 }
-
-/* 버튼 */
-.board-body-btn {
-    margin: 0;
-}
-
-.btn {
-    margin: 0;
-    margin-top: 5px;
-    margin-left: 20px;
-    margin-bottom: 10px;
-    width: 100px;
-}
-
-.main-before-btn {
-    margin-top: 0;
-    min-height: 360px;
-    height: auto;
-}
-
-.main-body-after-btn {
-    display: none;
-}
-
-.main-after-btn {
-    height: 160px;
-}
-
-.player-btn {
-    height: 100px;
-}
-
-.btn:hover {
-    cursor: pointer;
-}
-
 .pointer-event {
     pointer-events: none;
 }
@@ -226,3 +197,4 @@
 .tile-add {
     border: 1px solid black;
 }
+
