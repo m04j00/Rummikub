@@ -949,3 +949,23 @@ function main_board_refresh_click(){
     console.log(mainBoardTile);
     refresh_click();
 }
+function player_click(){
+    console.log("click");
+    for(let i = 0; i < clickTile.length; i++){
+        const tileInfo = nowTurnTile.findIndex((e) => {
+            return e.id == clickTile[i].id;
+        });
+        const mainTile = mainBoardTile.findIndex((e) => {
+            return e.id == clickTile[i].id;
+        });
+        if(tileInfo == -1) continue;
+        document.getElementById(clickTile[i].id).remove();
+        playerTile.push(clickTile[i]);
+        playerTile[playerTile.length - 1].location = 'player';
+        playerTile[playerTile.length - 1].set = 'null';
+        nowTurnTile.splice(tileInfo, 1);
+        mainBoardTile.splice(mainTile, 1);
+    }
+    player_tile_refresh();
+    clickTile.length = 0;
+}
