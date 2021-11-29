@@ -13,6 +13,8 @@ function whoseWin() {
 
 function popup(whose){
     comment_game_end();
+    const score = calculateScore(whose);
+    
     const popup = document.querySelector('.modal');
     const title = document.querySelector('.popup-title');
     const player_score = document.getElementById('me_score');
@@ -21,11 +23,10 @@ function popup(whose){
     const robot_win = document.getElementById('robot_win');
 
     popup.classList.add('show-modal');
-    let failSum = 0;
-    if(whose == 'player'){
-        failSum = funFailSum(robotTile);
-        player_score.textContent = '0';
-        robot_score.textContent = `-${failSum}`;
+
+    if(score[2] == 'player'){
+        player_score.textContent = `${score[0]}`;
+        robot_score.textContent = `-${score[1]}`;
         player_win.textContent = '승';
         robot_win.textContent = '패';
         player_win.classList.add('paleyr-win');
@@ -33,9 +34,8 @@ function popup(whose){
     }
     else{
         title.textContent = '패배';
-        failSum = funFailSum(playerTile);
-        player_score.textContent = `-${failSum}`;
-        robot_score.textContent = '0';
+        player_score.textContent = `${score[0]}`;
+        robot_score.textContent = `-${score[1]}`;
         player_win.textContent = '패';
         robot_win.textContent = '승';
         robot_win.classList.add('paleyr-win');
@@ -49,3 +49,29 @@ function funFailSum(tile){
     }
     return failSum;
 }
+function calculateScore(whose){
+    let score = [];
+    if(whose == 'player'){
+        score.push(0);
+        score.push(funFailSum(robotTile));
+        score.push(whose);
+    }else if(whose == 'robot'){
+        score.push(funFailSum(playerTile));
+        score.push(0);
+        score.push(whose);
+    }else{
+        score.push(funFailSum(playerTile));
+        score.push(funFailSum(robotTile));
+        let whoseWin = score[0] < score[1] ? 'player' : 'robot';
+        if(whoseWin == 'player'){
+            score[1] = (Number)(score[1]) - (Number)(score[0]);
+        }else{
+            score[0] = (Number)(score[0]) - (Number)(score[1]);
+        }
+        score.push(whoseWin);
+    }
+    return score;
+
+}
+function goMain(){ location.href ='main.html'; }
+function restart(){ location.reload(); }

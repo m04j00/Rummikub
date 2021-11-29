@@ -8,6 +8,9 @@ function isUnits(num) {
 let playerTurn = true;
 let countInterval;
 
+// 남은 타일 0일 경우
+let remainTileZero = false;
+let turnCnt = 2;
 function CountDown(duration, element) {
     let setTime = duration;
     let min = 0,
@@ -19,7 +22,6 @@ function CountDown(duration, element) {
         element.textContent = `제한 시간 ${isUnits(min)}:${isUnits(sec)}`;
         setTime--;
         if (setTime < 0) {
-            console.log("현재 턴 : ", playerTurn);
             if (playerTurn) timeOut();
             else turnEnd();
         } // 타이머 종료
@@ -197,14 +199,21 @@ let playerTileLen = playerTile.length;
 //턴 변경
 function turnEnd() {
     backUpTile = [...mainBoardTile];
-    console.log("turn End");
+    // console.log("turn End");/
     tileEffectiveness();
     playerTurn = !playerTurn; // 플레이어 변경
     isPlayerTime();
     const notWin = whoseWin();
     console.log(notWin);
-    if (notWin == 0) {
-        
+    console.log("turnCnt : ", turnCnt)
+    if(turnCnt == 0) {
+        popup('null');
+        clearInterval(countInterval);
+    }
+    else if(remainTileZero){
+        turnCnt--;
+    }
+    else if (notWin == 0) {
         clearInterval(countInterval);
         initTime();
         return;
@@ -247,8 +256,12 @@ function timeOut() {
     
     comment_time_out();
     setTimeout(comment_robot_turn, 1000);
+
+    if(remainTileZero) {
+        turnCnt--;
+    }
     // 추가된 타일이 없을 경우 return
-    if (nowTurnTile.length == 0) {
+    else if (nowTurnTile.length == 0) {
         skip_turn_click();
         return;
     }
@@ -687,12 +700,19 @@ function skip_turn_click() {
     //로봇 적용 전
     // 타일 푸쉬
     //console.log("남은 타일의 마지막 인덱스 ", remainTile[remainTile.length - 1]);
+    if(remainTileZero){
+        turnEnd();
+        return;
+    }
     playerTile.push(remainTile.pop())
     playerTile[playerTile.length - 1].location = "player";
     //console.log("추가된 타일 ", playerTile[playerTile.length - 1]);
     player_tile_refresh();
     remainingTile();
     clickTileReset();
+    if(remainTile.length == 0){
+        remainTileZero = true;
+    }
     turnEnd();
 }
 

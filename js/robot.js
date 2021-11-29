@@ -9,6 +9,10 @@ function robotTurn() {
         turnEnd();
     }
     else{
+        if(remainTileZero){
+            turnEnd();
+            return;
+        }
         let tile = remainTile.pop();
         let tile2;
         if(tile.number == '0') {
